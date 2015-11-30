@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "out": "dist/js/app.js"
+    },
+    "exclude": [
+        "bower_components",
+        "node_modules"
+    ]
+}
