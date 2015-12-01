@@ -1,5 +1,13 @@
-<ul>
-    <li ng-repeat="album in flickrAlbumList.albums">
-        <a ng-bind="album.title._content"></a>
-    </li>
-</ul>
+<div class="amo-flickr-album-list-container">
+    <ul class="amo-flickr-album-list">
+        <li ng-repeat="album in flickrAlbumList.albums">
+            <a
+                ng-bind="album.title._content"
+                ng-click="flickrAlbumList.setAlbum(album)">
+            </a>
+        </li>
+    </ul>
+    <amo-flickr-album
+        album-id="flickrAlbumList.currentAlbumId">
+    </amo-flickr-album>
+</div>

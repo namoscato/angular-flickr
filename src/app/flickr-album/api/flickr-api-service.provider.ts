@@ -5,7 +5,8 @@ namespace amo.flickrAlbum {
         _userId: string;
 
     export interface IFlickrApiService {
-        fetchAlbumList: (userId?: string) => ng.IPromise<Array<Object>>
+        fetchAlbumList: (userId?: string) => ng.IPromise<Array<Object>>;
+        fetchAlbum: (albumId: string, userId?: string) => ng.IPromise<Object>;
     }
 
     /**
@@ -20,9 +21,10 @@ namespace amo.flickrAlbum {
     function FlickrApiService(
         $http: ng.IHttpService,
         $q: ng.IQService,
-        amoFlickrApiConfigurationFactory: amo.flickrAlbum.FlickrApiConfigurationFactory) {
+        amoFlickrApiConfigurationFactory: FlickrApiConfigurationFactory) {
 
         this.fetchAlbumList = fetchAlbumList;
+        this.fetchAlbum = fetchAlbum;
 
         return this;
 
@@ -55,6 +57,27 @@ namespace amo.flickrAlbum {
 
         /**
          * @ngdoc method
+         * @name amoFlickrApiService#fetchAlbum
+         * @param {String} albumId
+         * @param {String} [userId]
+         * @returns {Promise}
+         */
+        function fetchAlbum(albumId: string, userId?: string) {
+            if (angular.isUndefined(userId)) { userId = _userId; }
+
+            return get('photosets.getPhotos', {
+                params: {
+                    extras: 'url_s,url_o',
+                    photoset_id: albumId,
+                    user_id: userId
+                }
+            }).then(function(data) {
+                return data.photoset;
+            });
+        }
+
+        /**
+         * @ngdoc method
          * @name amoFlickrApiService#fetchAlbumList
          * @param {String} [userId]
          * @returns {Promise}
@@ -65,7 +88,6 @@ namespace amo.flickrAlbum {
             return get('photosets.getList', {
                 params: {
                     per_page: 100,
-                    primary_photo_extras: 'url_m',
                     user_id: userId
                 }
             }).then(function(data) {

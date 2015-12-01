@@ -2,19 +2,23 @@ namespace amo.flickrAlbum {
     'use strict';
 
     /**
-     * @ngdoc service
+     * @ngdoc directive
      * @module amo.flickrAlbum
-     * @name amoFlickrApiService
-     * @requires $http
+     * @name amoFlickrAlbumList
      */
     export class FlickrAlbumListDirective implements ng.IDirective {
-        bindToController = true;
-        controller = 'AmoFlickrAlbumListController';
-        controllerAs = 'flickrAlbumList';
-        replace = true;
-        restrict = 'E';
-        templateUrl = 'flickr-album/album-list/flickr-album-list.html';
+        bindToController: boolean = true;
+        controller: string = 'AmoFlickrAlbumListController';
+        controllerAs: string = 'flickrAlbumList';
+        replace: boolean = true;
+        restrict: string = 'E';
+        templateUrl: string = 'flickr-album/album-list/flickr-album-list.html';
 
+        /**
+         * @name amoFlickrAlbumList#instance
+         * @description Returns a new directive instance
+         * @returns {Object}
+         */
         static instance(): ng.IDirective {
             return new FlickrAlbumListDirective();
         }

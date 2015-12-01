@@ -19,7 +19,8 @@ var addStream = require('add-stream'),
 var tsProject = gulpTypescript.createProject({
     noImplicitAny: true,
     noExternalResolve: true,
-    out: 'app.js'
+    out: 'app.js',
+    typescript: require('typescript')
 });
 
 gulp.task('all', 'Build application', [

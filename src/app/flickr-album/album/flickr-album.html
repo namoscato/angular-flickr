@@ -1,0 +1,18 @@
+<div class="amo-flickr-album">
+    <div class="amo-flickr-album-thumbnails">
+        <ul>
+            <li ng-repeat="photo in flickrAlbum.album.photo">
+                <a ng-click="flickrAlbum.setPhoto(photo)">
+                    <img
+                        class="thumbnail"
+                        ng-attr-alt="{{ photo.title }}"
+                        ng-src="{{ photo.url_s }}">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <img
+        class="amo-flickr-album-photo"
+        ng-attr-alt="{{ flickrAlbum.currentPhoto.title }}"
+        ng-src="{{ flickrAlbum.currentPhoto.url_o }}">
+</div>

@@ -8,15 +8,25 @@ namespace amo.flickrAlbum {
      * @requires amoFlickrApiService
      */
     export class FlickrAlbumListController {
+        currentAlbumId: string;
         albums: Array<Object>;
 
         /**
          * @ngInject
          */
-        constructor(amoFlickrApiService: amo.flickrAlbum.IFlickrApiService) {
+        constructor(amoFlickrApiService: IFlickrApiService) {
             amoFlickrApiService.fetchAlbumList().then((albums) => {
                 this.albums = albums;
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @name amoFlickrAlbumListController#setAlbum
+         * @param {Object} album
+         */
+        setAlbum(album: any) {
+            this.currentAlbumId = album.id;
         }
     }
 
