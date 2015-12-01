@@ -5,7 +5,7 @@ namespace amo.flickrAlbum {
         _userId: string;
 
     export interface IFlickrApiService {
-        fetchAlbumList: (userId?: string) => ng.IPromise<Object>
+        fetchAlbumList: (userId?: string) => ng.IPromise<Array<Object>>
     }
 
     /**
@@ -44,7 +44,7 @@ namespace amo.flickrAlbum {
                 nojsoncallback: 1
             });
 
-            return $http.get(amoFlickrApiConfigurationFactory.origin, config).then(function(result) {
+            return $http.get(amoFlickrApiConfigurationFactory.origin, config).then(function(result: any) {
                 if (result.data.stat === 'fail') {
                     return $q.reject(result.data);
                 }
@@ -79,7 +79,7 @@ namespace amo.flickrAlbum {
      * @module amo.flickrAlbum
      * @name amoFlickrApiServiceProvider
      */
-    export class FlickrApiServiceProvider implements IFlickrApiServiceProvider {
+    export class FlickrApiServiceProvider {
 
         /**
          * @ngInject
@@ -93,7 +93,7 @@ namespace amo.flickrAlbum {
          * @name amoFlickrApiServiceProvider#setApiKey
          * @param {String} key API key
          */
-        setApiKey(key: string): IFlickrApiServiceProvider {
+        setApiKey(key: string): this {
             _apiKey = key;
             return this;
         }
@@ -103,7 +103,7 @@ namespace amo.flickrAlbum {
          * @name amoFlickrApiServiceProvider#setUserId
          * @param {String} userId Flickr user ID
          */
-        setUserId(userId: string): IFlickrApiServiceProvider {
+        setUserId(userId: string): this {
             _userId = userId;
             return this;
         }

@@ -8,6 +8,7 @@ namespace amo.flickrAlbum {
      * @requires amoFlickrApiService
      */
     export class FlickrAlbumListController {
+        albums: Array<Object>;
 
         /**
          * @ngInject
