@@ -1,6 +1,10 @@
 namespace amo.flickrAlbum {
     'use strict';
 
+    export interface IFlickrAlbumListDirectiveBindings {
+        userId: string;
+    }
+
     /**
      * @ngdoc directive
      * @module amo.flickrAlbum
@@ -12,6 +16,9 @@ namespace amo.flickrAlbum {
         controllerAs: string = 'flickrAlbumList';
         replace: boolean = true;
         restrict: string = 'E';
+        scope: IFlickrAlbumListDirectiveBindings = {
+            userId: '@'
+        };
         templateUrl: string = 'flickr-album/album-list/flickr-album-list.html';
 
         /**

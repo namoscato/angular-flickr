@@ -2,12 +2,15 @@
     <ul class="amo-flickr-album-list">
         <li ng-repeat="album in flickrAlbumList.albums">
             <a
+                class="link-item"
                 ng-bind="album.title._content"
+                ng-class="{ 'active': flickrAlbumList.isAlbumActive(album) }"
                 ng-click="flickrAlbumList.setAlbum(album)">
             </a>
         </li>
     </ul>
     <amo-flickr-album
-        album-id="flickrAlbumList.currentAlbumId">
+        album-id="{{ flickrAlbumList.currentAlbumId }}"
+        user-id="{{ flickrAlbumList.userId }}">
     </amo-flickr-album>
 </div>

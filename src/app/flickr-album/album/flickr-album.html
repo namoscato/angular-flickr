@@ -2,7 +2,10 @@
     <div class="amo-flickr-album-thumbnails">
         <ul>
             <li ng-repeat="photo in flickrAlbum.album.photo">
-                <a ng-click="flickrAlbum.setPhoto(photo)">
+                <a
+                    class="link-item"
+                    ng-class="{ 'active': flickrAlbum.isPhotoActive(photo) }"
+                    ng-click="flickrAlbum.setPhoto(photo)">
                     <img
                         class="thumbnail"
                         ng-attr-alt="{{ photo.title }}"

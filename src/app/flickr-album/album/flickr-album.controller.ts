@@ -10,8 +10,9 @@ namespace amo.flickrAlbum {
      */
     export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
         albumId: string;
-        album: Object;
-        currentPhoto: Object;
+        album: IFlickrAlbum;
+        currentPhoto: IFlickrPhoto;
+        userId: string;
 
         /**
          * @ngInject
@@ -23,10 +24,21 @@ namespace amo.flickrAlbum {
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
                 if (angular.isUndefined(albumId)) { return; }
 
-                amoFlickrApiService.fetchAlbum(albumId).then((album) => {
+                amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
                     this.album = album;
                 });
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @name AmoFlickrAlbumController#isPhotoActive
+         * @description Determines whether or not the specified photo is active
+         * @param {Object} photo
+         * @returns {Boolean}
+         */
+        isPhotoActive(photo: IFlickrPhoto): boolean {
+            return this.currentPhoto.id === photo.id;
         }
 
         /**
@@ -35,7 +47,7 @@ namespace amo.flickrAlbum {
          * @description Sets the current photo
          * @param {Object} photo
          */
-        setPhoto(photo: Object) {
+        setPhoto(photo: IFlickrPhoto) {
             this.currentPhoto = photo;
         }
     }

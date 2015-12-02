@@ -2,7 +2,11 @@
 // AngularJS Flickr Components
 // ----------------------------------
 
+$color-black: #171717;
+$sidebar-width: 200px;
+
 .amo-flickr-album-list-container {
+    color: $color-black;
     position: relative;
 }
 
@@ -11,10 +15,37 @@
     list-style: none;
     margin: 0;
     padding: 0;
+
+    > li > a {
+        cursor: pointer;
+        display: block;
+    }
+}
+
+.amo-flickr-album-list {
+    bottom: 0;
+    font-size: 14px;
+    overflow-y: auto;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    width: $sidebar-width;
+
+    .link-item {
+        color: #929292;
+        padding: 6px 15px;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.active {
+            color: $color-black;
+        }
+    }
 }
 
 .amo-flickr-album {
-    left: 200px;
+    left: $sidebar-width;
     position: absolute;
     right: 0;
     top: 0;
@@ -27,8 +58,13 @@
         white-space: nowrap;
 
         > li {
-            display: inline;
+            display: inline-block;
+            margin-right: 2px;
         }
+    }
+
+    .link-item.active {
+        opacity: .5;
     }
 
     .thumbnail {

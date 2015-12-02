@@ -5,8 +5,24 @@ namespace amo.flickrAlbum {
         _userId: string;
 
     export interface IFlickrApiService {
-        fetchAlbumList: (userId?: string) => ng.IPromise<Array<Object>>;
-        fetchAlbum: (albumId: string, userId?: string) => ng.IPromise<Object>;
+        fetchAlbumList: (userId?: string) => ng.IPromise<Array<IFlickrAlbum>>;
+        fetchAlbum: (albumId: string, userId?: string) => ng.IPromise<IFlickrAlbum>;
+    }
+
+    export interface IFlickrAlbum {
+        id: string;
+        photo: Array<IFlickrPhoto>;
+    }
+
+    export interface IFlickrPhoto {
+        height_o: string;
+        height_s: string;
+        id: string;
+        title: string;
+        url_o: string;
+        url_s: string;
+        width_o: string;
+        width_s: string;
     }
 
     /**

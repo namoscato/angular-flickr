@@ -3,6 +3,7 @@ namespace amo.flickrAlbum {
 
     export interface IFlickrAlbumDirectiveBindings {
         albumId: string;
+        userId: string;
     }
 
     /**
@@ -17,7 +18,8 @@ namespace amo.flickrAlbum {
         restrict: string = 'E';
         replace: boolean = true;
         scope: IFlickrAlbumDirectiveBindings = {
-            albumId: '='
+            albumId: '@',
+            userId: '@'
         };
         templateUrl: string = 'flickr-album/album/flickr-album.html';
 
