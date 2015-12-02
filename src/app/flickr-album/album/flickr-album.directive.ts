@@ -24,7 +24,7 @@ namespace amo.flickrAlbum {
         templateUrl: string = 'flickr-album/album/flickr-album.html';
 
         /**
-         * @name amoFlickrAlbumList#instance
+         * @name amoFlickrAlbum#instance
          * @description Returns a new directive instance
          * @returns {Object}
          */

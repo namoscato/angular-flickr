@@ -38,6 +38,8 @@ namespace amo.flickrAlbum {
          * @returns {Boolean}
          */
         isPhotoActive(photo: IFlickrPhoto): boolean {
+            if (angular.isUndefined(this.currentPhoto)) { return false; }
+
             return this.currentPhoto.id === photo.id;
         }
 

@@ -6,10 +6,11 @@
                     class="link-item"
                     ng-class="{ 'active': flickrAlbum.isPhotoActive(photo) }"
                     ng-click="flickrAlbum.setPhoto(photo)">
-                    <img
-                        class="thumbnail"
-                        ng-attr-alt="{{ photo.title }}"
-                        ng-src="{{ photo.url_s }}">
+                    <amo-flickr-photo
+                        height="100"
+                        photo="photo"
+                        size="s">
+                    </amo-flickr-photo>
                 </a>
             </li>
         </ul>

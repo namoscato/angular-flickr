@@ -3,6 +3,8 @@
 // ----------------------------------
 
 $color-black: #171717;
+$color-gray: #929292;
+$color-gray-light: #EAEAEA;
 $sidebar-width: 200px;
 
 .amo-flickr-album-list-container {
@@ -32,7 +34,7 @@ $sidebar-width: 200px;
     width: $sidebar-width;
 
     .link-item {
-        color: #929292;
+        color: $color-gray;
         padding: 6px 15px;
 
         &:hover,
@@ -67,7 +69,11 @@ $sidebar-width: 200px;
         opacity: .5;
     }
 
-    .thumbnail {
+    .amo-image {
         height: 100px;
     }
+}
+
+.amo-image {
+    background-color: $color-gray-light;
 }
