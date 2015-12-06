@@ -4,7 +4,7 @@
 
 $color-black: #171717;
 $color-gray: #929292;
-$color-gray-light: #EAEAEA;
+$color-gray-light: #F5F5F5;
 $sidebar-width: 250px;
 
 .amo-flickr-album-list-container {
@@ -27,16 +27,14 @@ $sidebar-width: 250px;
 .amo-flickr-album-list {
     bottom: 0;
     font-size: 14px;
-    overflow-y: auto;
     padding: 15px 0;
     position: fixed;
     text-align: right;
-    top: 0;
     width: $sidebar-width;
 
     .link-item {
         color: $color-gray;
-        padding: 6px 15px;
+        padding: 6px 18px;
 
         &:hover,
         &:active,
@@ -48,6 +46,7 @@ $sidebar-width: 250px;
 }
 
 .amo-flickr-album {
+    background-color: $color-gray-light;
     bottom: 0;
     left: $sidebar-width;
     position: fixed;
@@ -59,12 +58,13 @@ $sidebar-width: 250px;
     overflow: auto;
 
     > ul {
-        margin-bottom: -1px;
+        margin-bottom: -3px;
         white-space: nowrap;
 
         > li {
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
             display: inline-block;
-            margin-right: 2px;
         }
     }
 

@@ -13,6 +13,8 @@ namespace amo.flickrAlbum {
         imageWidth: string;
         photo: any;
         size: string;
+        thumbnailSize: string;
+        thumbnailSource: string;
 
         /**
          * @ngInject
@@ -28,6 +30,10 @@ namespace amo.flickrAlbum {
                 this.imageHeight = this.getPhotoValue('height');
                 this.imageSource = this.getPhotoValue('url');
                 this.imageWidth = this.getPhotoValue('width');
+
+                if (angular.isDefined(this.thumbnailSize)) {
+                    this.thumbnailSource = this.getPhotoValue('url', this.thumbnailSize);
+                }
             });
         }
 
@@ -35,12 +41,15 @@ namespace amo.flickrAlbum {
          * @name AmoFlickrPhotoController#getPhotoValue
          * @description Returns the value of the specified property based on the photo size
          * @param {String} property Photo property name
+         * @param {String} [size] Photo size
          * @returns {String}
          */
-        private getPhotoValue(property: string): string {
+        private getPhotoValue(property: string, size?: string): string {
             if (angular.isUndefined(this.photo)) { return null; }
 
-            return this.photo[property + '_' + this.size];
+            if (angular.isUndefined(size)) { size = this.size; }
+
+            return this.photo[property + '_' + size];
         }
     }
 

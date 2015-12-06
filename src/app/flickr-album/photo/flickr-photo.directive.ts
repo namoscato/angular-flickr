@@ -5,6 +5,7 @@ namespace amo.flickrAlbum {
         height?: number;
         photo: IFlickrPhoto;
         size: string;
+        thumbnailSize?: string,
         width?: number;
     }
 
@@ -23,6 +24,7 @@ namespace amo.flickrAlbum {
             height: '=',
             photo: '=',
             size: '@',
+            thumbnailSize: '@',
             width: '='
         };
         templateUrl: string = 'flickr-album/photo/flickr-photo.html';

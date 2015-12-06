@@ -21,21 +21,25 @@ namespace amo.flickrAlbum {
          * @ngInject
          */
         constructor(
-            $element: ng.IAugmentedJQuery,
-            $scope: ng.IScope,
+            private $element: ng.IAugmentedJQuery,
+            private $scope: ng.IScope,
             amoFlickrApiService: IFlickrApiService,
-            amoFlickrConfiguration: IFlickrConfiguration) {
+            private amoFlickrConfiguration: IFlickrConfiguration) {
 
-            let thumbnailSize = amoFlickrConfiguration.thumbnailSize;
+            this.setPhotoSize();
+            this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
 
-            this.photoHeight = $element[0].offsetHeight - thumbnailSize - 2;
-            this.photoWidth = $element[0].offsetWidth;
-            this.thumbnailSize = thumbnailSize;
+            $scope.$on('amo.flickr.windowResize', () => {
+                this.$scope.$apply(() => {
+                    this.setPhotoSize();
+                });
+            });
 
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
                 if (angular.isUndefined(albumId)) { return; }
 
                 amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
+                    this.currentPhoto = album.photo.length > 0 ? album.photo[0] : null;
                     this.album = album;
                 });
             });
@@ -62,6 +66,15 @@ namespace amo.flickrAlbum {
          */
         setPhoto(photo: IFlickrPhoto) {
             this.currentPhoto = photo;
+        }
+
+        /**
+         * @name AmoFlickrAlbumController#setPhotoSize
+         * @description Sets the photo size
+         */
+        private setPhotoSize() {
+            this.photoHeight = this.$element[0].offsetHeight - this.amoFlickrConfiguration.thumbnailSize - 2;
+            this.photoWidth = this.$element[0].offsetWidth;
         }
     }
 
