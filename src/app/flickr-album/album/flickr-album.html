@@ -7,7 +7,7 @@
                     ng-class="{ 'active': flickrAlbum.isPhotoActive(photo) }"
                     ng-click="flickrAlbum.setPhoto(photo)">
                     <amo-flickr-photo
-                        height="100"
+                        height="flickrAlbum.thumbnailSize"
                         photo="photo"
                         size="s">
                     </amo-flickr-photo>

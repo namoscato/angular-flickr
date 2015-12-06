@@ -12,14 +12,19 @@ namespace amo.flickrAlbum {
         albumId: string;
         album: IFlickrAlbum;
         currentPhoto: IFlickrPhoto;
+        thumbnailSize: number;
         userId: string;
 
         /**
          * @ngInject
          */
         constructor(
+            $element: ng.IAugmentedJQuery,
             $scope: ng.IScope,
-            amoFlickrApiService: IFlickrApiService) {
+            amoFlickrApiService: IFlickrApiService,
+            amoFlickrConfiguration: IFlickrConfiguration) {
+
+            this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
 
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
                 if (angular.isUndefined(albumId)) { return; }
@@ -28,6 +33,8 @@ namespace amo.flickrAlbum {
                     this.album = album;
                 });
             });
+
+            console.log($element[0].offsetHeight);
         }
 
         /**

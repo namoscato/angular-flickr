@@ -18,6 +18,10 @@ namespace amo.flickrAlbum {
         constructor(amoFlickrApiService: IFlickrApiService) {
             amoFlickrApiService.fetchAlbumList(this.userId).then((albums) => {
                 this.albums = albums;
+
+                if (albums.length > 0) {
+                    this.currentAlbumId = albums[0].id;
+                }
             });
         }
 

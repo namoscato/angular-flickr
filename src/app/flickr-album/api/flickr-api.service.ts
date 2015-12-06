@@ -1,9 +1,6 @@
 namespace amo.flickrAlbum {
     'use strict';
 
-    let _apiKey: string,
-        _userId: string;
-
     export interface IFlickrApiService {
         fetchAlbumList: (userId?: string) => ng.IPromise<Array<IFlickrAlbum>>;
         fetchAlbum: (albumId: string, userId?: string) => ng.IPromise<IFlickrAlbum>;
@@ -26,7 +23,6 @@ namespace amo.flickrAlbum {
     }
 
     /**
-     * @ngInject
      * @ngdoc service
      * @module amo.flickrAlbum
      * @name amoFlickrApiService
@@ -34,15 +30,17 @@ namespace amo.flickrAlbum {
      * @requires $q
      * @requires amoFlickrApiConfigurationFactory
      */
-    function FlickrApiService(
-        $http: ng.IHttpService,
-        $q: ng.IQService,
-        amoFlickrApiConfigurationFactory: FlickrApiConfigurationFactory) {
+    export class FlickrApiService {
 
-        this.fetchAlbumList = fetchAlbumList;
-        this.fetchAlbum = fetchAlbum;
-
-        return this;
+        /**
+         * @ngInject
+         */
+        constructor(
+            private $http: ng.IHttpService,
+            private $q: ng.IQService,
+            private amoFlickrApiConfigurationFactory: FlickrApiConfigurationFactory,
+            private amoFlickrConfiguration: IFlickrConfiguration) {
+        }
 
         /**
          * @name amoFlickrApiService#get
@@ -50,21 +48,21 @@ namespace amo.flickrAlbum {
          * @param {Object} [config]
          * @returns {Promise}
          */
-        function get(method: string, config?: ng.IRequestShortcutConfig) {
+        private get(method: string, config?: ng.IRequestShortcutConfig) {
             if (angular.isUndefined(config)) { config = {}; }
 
             if (angular.isUndefined(config.params)) { config.params = {}; }
 
             angular.extend(config.params, {
-                api_key: _apiKey,
+                api_key: this.amoFlickrConfiguration.apiKey,
                 format: 'json',
                 method: 'flickr.' + method,
                 nojsoncallback: 1
             });
 
-            return $http.get(amoFlickrApiConfigurationFactory.origin, config).then(function(result: any) {
+            return this.$http.get(this.amoFlickrApiConfigurationFactory.origin, config).then((result: any) => {
                 if (result.data.stat === 'fail') {
-                    return $q.reject(result.data);
+                    return this.$q.reject(result.data);
                 }
 
                 return result.data;
@@ -78,10 +76,10 @@ namespace amo.flickrAlbum {
          * @param {String} [userId]
          * @returns {Promise}
          */
-        function fetchAlbum(albumId: string, userId?: string) {
-            if (angular.isUndefined(userId)) { userId = _userId; }
+        fetchAlbum(albumId: string, userId?: string) {
+            if (angular.isUndefined(userId)) { userId = this.amoFlickrConfiguration.userId; }
 
-            return get('photosets.getPhotos', {
+            return this.get('photosets.getPhotos', {
                 params: {
                     extras: 'url_s,url_o',
                     photoset_id: albumId,
@@ -98,10 +96,10 @@ namespace amo.flickrAlbum {
          * @param {String} [userId]
          * @returns {Promise}
          */
-        function fetchAlbumList(userId?: string) {
-            if (angular.isUndefined(userId)) { userId = _userId; }
+        fetchAlbumList(userId?: string) {
+            if (angular.isUndefined(userId)) { userId = this.amoFlickrConfiguration.userId; }
 
-            return get('photosets.getList', {
+            return this.get('photosets.getList', {
                 params: {
                     per_page: 100,
                     user_id: userId
@@ -112,42 +110,7 @@ namespace amo.flickrAlbum {
         }
     }
 
-    /**
-     * @ngdoc provider
-     * @module amo.flickrAlbum
-     * @name amoFlickrApiServiceProvider
-     */
-    export class FlickrApiServiceProvider {
-
-        /**
-         * @ngInject
-         * @ngdoc method
-         * @name amoFlickrApiServiceProvider#$get
-         */
-        $get = FlickrApiService;
-
-        /**
-         * @ngdoc method
-         * @name amoFlickrApiServiceProvider#setApiKey
-         * @param {String} key API key
-         */
-        setApiKey(key: string): this {
-            _apiKey = key;
-            return this;
-        }
-
-        /**
-         * @ngdoc method
-         * @name amoFlickrApiServiceProvider#setUserId
-         * @param {String} userId Flickr user ID
-         */
-        setUserId(userId: string): this {
-            _userId = userId;
-            return this;
-        }
-    }
-
     angular
         .module('amo.flickrAlbum')
-        .provider('amoFlickrApiService', FlickrApiServiceProvider);
+        .service('amoFlickrApiService', FlickrApiService);
 }
