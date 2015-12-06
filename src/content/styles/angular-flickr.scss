@@ -59,6 +59,7 @@ $sidebar-width: 250px;
     overflow: auto;
 
     > ul {
+        margin-bottom: -1px;
         white-space: nowrap;
 
         > li {
@@ -72,6 +73,11 @@ $sidebar-width: 250px;
     }
 }
 
+.amo-flickr-album-photo .amo-image {
+    position: absolute;
+}
+
 .amo-image {
     background-color: $color-gray-light;
+    display: block;
 }

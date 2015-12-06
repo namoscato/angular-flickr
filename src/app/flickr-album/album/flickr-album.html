@@ -15,8 +15,11 @@
             </li>
         </ul>
     </div>
-    <img
+    <amo-flickr-photo
         class="amo-flickr-album-photo"
-        ng-attr-alt="{{ flickrAlbum.currentPhoto.title }}"
-        ng-src="{{ flickrAlbum.currentPhoto.url_o }}">
+        height="flickrAlbum.photoHeight"
+        photo="flickrAlbum.currentPhoto"
+        size="o"
+        width="flickrAlbum.photoWidth">
+    </amo-flickr-photo>
 </div>
