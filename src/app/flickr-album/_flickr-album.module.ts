@@ -5,14 +5,14 @@ namespace amo.flickrAlbum {
      * @ngdoc run
      * @module amo.flickrAlbum
      * @name RunBlock
-     * @requires amoFlickrWindowResizeService
+     * @requires amoFlickrEventService
      */
     export class RunBlock {
 
         /**
          * @ngInject
          */
-        constructor(amoFlickrWindowResizeService: Object) {}
+        constructor(amoFlickrEventService: Object) { }
     }
 
     /**

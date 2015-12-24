@@ -11,7 +11,7 @@ namespace amo.flickrAlbum {
     export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
         albumId: string;
         album: IFlickrAlbum;
-        currentPhoto: IFlickrPhoto;
+        currentPhotoIndex: number;
         photoHeight: number;
         photoWidth: number;
         thumbnailSize: number;
@@ -35,14 +35,35 @@ namespace amo.flickrAlbum {
                 });
             });
 
+            $scope.$on('amo.flickr.navigateNext', () => {
+                this.$scope.$apply(() => this.navigateNextPhoto());
+            });
+
+            $scope.$on('amo.flickr.navigatePrevious', () => {
+                this.$scope.$apply(() => this.navigatePreviousPhoto());
+            });
+
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
                 if (angular.isUndefined(albumId)) { return; }
 
                 amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
-                    this.currentPhoto = album.photo.length > 0 ? album.photo[0] : null;
+                    this.currentPhotoIndex = album.photo.length > 0 ? 0 : -1;
                     this.album = album;
                 });
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @name AmoFlickrAlbumController#getCurrentPhoto
+         * @description Determines whether or not the specified photo is active
+         * @param {Object} photo
+         * @returns {Boolean}
+         */
+        getCurrentPhoto(): IFlickrPhoto {
+            if (angular.isUndefined(this.album)) { return null; }
+
+            return this.album.photo[this.currentPhotoIndex];
         }
 
         /**
@@ -53,19 +74,43 @@ namespace amo.flickrAlbum {
          * @returns {Boolean}
          */
         isPhotoActive(photo: IFlickrPhoto): boolean {
-            if (angular.isUndefined(this.currentPhoto)) { return false; }
+            if (this.currentPhotoIndex < 0) { return false; }
 
-            return this.currentPhoto.id === photo.id;
+            return this.getCurrentPhoto().id === photo.id;
         }
 
         /**
          * @ngdoc method
-         * @name AmoFlickrAlbumController#setPhoto
-         * @description Sets the current photo
-         * @param {Object} photo
+         * @name AmoFlickrAlbumController#navigateNextPhoto
+         * @description Navigates to the next photo
          */
-        setPhoto(photo: IFlickrPhoto) {
-            this.currentPhoto = photo;
+        navigateNextPhoto() {
+            if (angular.isDefined(this.album) && this.currentPhotoIndex >= this.album.photo.length - 1) {
+                return;
+            }
+
+            this.currentPhotoIndex++;
+        }
+
+        /**
+         * @ngdoc method
+         * @name AmoFlickrAlbumController#navigatePreviousPhoto
+         * @description Navigates to the previous photo
+         */
+        navigatePreviousPhoto() {
+            if (this.currentPhotoIndex <= 0) { return; }
+
+            this.currentPhotoIndex--;
+        }
+
+        /**
+         * @ngdoc method
+         * @name AmoFlickrAlbumController#setPhotoIndex
+         * @description Sets the current photo index
+         * @param {Number} index
+         */
+        setPhotoIndex(index: number) {
+            this.currentPhotoIndex = index;
         }
 
         /**

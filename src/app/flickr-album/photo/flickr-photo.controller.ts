@@ -25,7 +25,7 @@ namespace amo.flickrAlbum {
                 'flickrPhoto.width',
                 'flickrPhoto.height'
             ], (values: Array<number|IFlickrPhoto>) => {
-                if (angular.isUndefined(values[0])) { return; }
+                if (angular.isUndefined(values[0]) || values[0] === null) { return; }
 
                 this.imageHeight = this.getPhotoValue('height');
                 this.imageSource = this.getPhotoValue('url');

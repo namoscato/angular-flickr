@@ -108,10 +108,10 @@ gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
 function compileJavaScript(stream, name) {
     return stream
         .pipe(gulpConcat(name + '.js'))
-        // .pipe(gulpUglify({
-        //     compress: false,
-        //     mangle: false
-        // }))
+        .pipe(gulpUglify({
+            compress: false,
+            mangle: false
+        }))
         .pipe(gulpRename(name + '.min.js'))
         .pipe(gulp.dest('src/dist/js'));
 }

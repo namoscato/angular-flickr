@@ -5,7 +5,7 @@
                 <a
                     class="link-item"
                     ng-class="{ 'active': flickrAlbum.isPhotoActive(photo) }"
-                    ng-click="flickrAlbum.setPhoto(photo)">
+                    ng-click="flickrAlbum.setPhotoIndex($index)">
                     <amo-flickr-photo
                         height="flickrAlbum.thumbnailSize"
                         photo="photo"
@@ -18,9 +18,17 @@
     <amo-flickr-photo
         class="amo-flickr-album-photo"
         height="flickrAlbum.photoHeight"
-        photo="flickrAlbum.currentPhoto"
+        photo="flickrAlbum.getCurrentPhoto()"
         size="o"
         thumbnail-size="s"
         width="flickrAlbum.photoWidth">
     </amo-flickr-photo>
+    <a
+        class="navigation navigation-left"
+        ng-click="flickrAlbum.navigatePreviousPhoto()">
+    </a>
+    <a
+        class="navigation navigation-right"
+        ng-click="flickrAlbum.navigateNextPhoto()">
+    </a>
 </div>
