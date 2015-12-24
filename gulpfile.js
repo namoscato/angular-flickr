@@ -73,7 +73,7 @@ gulp.task('js:lint', 'Check for JavaScript code quality', function() {
 });
 
 gulp.task('serve', 'Run a local webserver', function() {
-    gulp.src('src')
+    gulp.src('.')
         .pipe(gulpWebserver({
             fallback: 'index.html',
             livereload: false,
