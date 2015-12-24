@@ -45,7 +45,7 @@ gulp.task('css:app', 'Compile application SASS', function() {
 
 gulp.task('js:app', 'Compile application JavaScript', function() {
     var stream = streamqueue({objectMode: true},
-        gulp.src('src/types/**/*.ts'),
+        gulp.src('typings/**/*.d.ts'),
         gulp.src('src/app/**/*.module.ts'),
         gulp.src([
             'src/app/**/*.ts',

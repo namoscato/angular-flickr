@@ -3,3 +3,4 @@ node_modules
 bower_components
 src/dist
 src/app/core/app.config.ts
+typings
