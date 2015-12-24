@@ -44,7 +44,7 @@ namespace amo.flickrAlbum {
             });
 
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
-                if (angular.isUndefined(albumId)) { return; }
+                if (!albumId) { return; }
 
                 amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
                     this.currentPhotoIndex = album.photo.length > 0 ? 0 : -1;
