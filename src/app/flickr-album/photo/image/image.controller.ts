@@ -18,6 +18,7 @@ namespace amo.flickrAlbum {
         imageSource: string;
         imageStyle: IImageStyle = {};
         imageWidth: string;
+        isLoaded: boolean;
         source: string;
         thumbnailSource: string;
         width: number;
@@ -33,27 +34,40 @@ namespace amo.flickrAlbum {
                 'image.imageSource',
                 'image.width',
                 'image.height'
-            ], (values: Array<number|IFlickrPhoto>) => {
-                if (angular.isUndefined(values[0])) { return; }
+            ], (newValues: Array<number | IFlickrPhoto>, oldValues: Array<number | IFlickrPhoto>) => {
+                if (angular.isUndefined(newValues[0])) { return; }
 
-                if (angular.isDefined(this.thumbnailSource)) {
-                    this.source = this.thumbnailSource;
-
-                    asynchronousImage = new Image();
-                    asynchronousImage.onload = () => {
-                        $scope.$apply(() => {
-                            this.source = asynchronousImage.src;
-                        });
-                    };
-                    asynchronousImage.src = this.imageSource;
-                } else {
-                    this.source = this.imageSource;
+                if (newValues[0] !== oldValues[0]) {
+                    this.isLoaded = false;
                 }
+
+                asynchronousImage = new Image();
+                asynchronousImage.onload = () => {
+                    $scope.$apply(() => {
+                        this.source = asynchronousImage.src;
+                        this.isLoaded = true;
+                    });
+
+                    if (angular.isDefined(this.thumbnailSource)) {
+                        asynchronousImage = new Image();
+                        asynchronousImage.onload = () => {
+                            $scope.$apply(() => {
+                                this.source = asynchronousImage.src;
+                            });
+                        };
+
+                        asynchronousImage.src = this.imageSource;
+                    }
+                };
+
+                asynchronousImage.src = angular.isDefined(this.thumbnailSource)
+                    ? this.thumbnailSource
+                    : this.imageSource;
 
                 this.computedHeight = null;
                 this.computedWidth = null;
 
-                if (angular.isUndefined(values[1]) && angular.isUndefined(values[2])) { return; }
+                if (angular.isUndefined(newValues[1]) && angular.isUndefined(newValues[2])) { return; }
 
                 if (angular.isUndefined(this.height)) { // Only width is defined
                     this.setWidth(this.width);

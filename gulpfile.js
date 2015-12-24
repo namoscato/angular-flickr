@@ -4,6 +4,7 @@ var addStream = require('add-stream'),
     del = require('del'),
     gulp = require('gulp'),
     gulpAngularTemplateCache = require('gulp-angular-templatecache'),
+    gulpAutoprefixer = require('gulp-autoprefixer'),
     gulpConcat = require('gulp-concat'),
     gulpHelp = require('gulp-help')(gulp),
     gulpMinifyCss = require('gulp-minify-css'),
@@ -33,6 +34,10 @@ gulp.task('all', 'Build application', [
 gulp.task('css:app', 'Compile application SASS', function() {
     gulp.src('src/content/styles/app.scss')
         .pipe(gulpSass().on('error', gulpSass.logError))
+        .pipe(gulpAutoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(gulpMinifyCss({
             advanced: false,
             aggressiveMerging: false,

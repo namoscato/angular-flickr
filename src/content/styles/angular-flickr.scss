@@ -25,11 +25,9 @@ $sidebar-width: 250px;
 }
 
 .amo-flickr-album-list {
-    bottom: 0;
     font-size: 14px;
     padding: 15px 0;
     position: fixed;
-    text-align: right;
     width: $sidebar-width;
 
     .link-item {
@@ -46,7 +44,6 @@ $sidebar-width: 250px;
 }
 
 .amo-flickr-album {
-    background-color: $color-gray-light;
     bottom: 0;
     left: $sidebar-width;
     position: fixed;
@@ -67,7 +64,8 @@ $sidebar-width: 250px;
 }
 
 .amo-flickr-album-thumbnails {
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     > ul {
         margin-bottom: -3px;
@@ -85,11 +83,20 @@ $sidebar-width: 250px;
     }
 }
 
-.amo-flickr-album-photo .amo-image {
+.amo-flickr-album-photo .amo-image-container {
     position: absolute;
 }
 
-.amo-image {
+.amo-image-container {
     background-color: $color-gray-light;
+
+    &.state-loaded .amo-image {
+        opacity: 1;
+        transition: opacity 200ms ease-in-out;
+    }
+}
+
+.amo-image {
     display: block;
+    opacity: 0;
 }
