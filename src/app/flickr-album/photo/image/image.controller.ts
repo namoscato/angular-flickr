@@ -30,16 +30,10 @@ namespace amo.flickrAlbum {
             let asynchronousImage: HTMLImageElement,
                 width: number;
 
-            $scope.$watchGroup([
-                'image.imageSource',
-                'image.width',
-                'image.height'
-            ], (newValues: Array<number | IFlickrPhoto>, oldValues: Array<number | IFlickrPhoto>) => {
-                if (angular.isUndefined(newValues[0])) { return; }
+            $scope.$watch('image.imageSource', (imageSource) => {
+                if (angular.isUndefined(imageSource)) { return; }
 
-                if (newValues[0] !== oldValues[0]) {
-                    this.isLoaded = false;
-                }
+                this.isLoaded = false;
 
                 asynchronousImage = new Image();
                 asynchronousImage.onload = () => {
@@ -64,21 +58,36 @@ namespace amo.flickrAlbum {
                     ? this.thumbnailSource
                     : this.imageSource;
 
-                this.computedHeight = null;
-                this.computedWidth = null;
-
-                if (angular.isUndefined(newValues[1]) && angular.isUndefined(newValues[2])) { return; }
-
-                if (angular.isUndefined(this.height)) { // Only width is defined
-                    this.setWidth(this.width);
-                } else if (angular.isUndefined(this.width)) { // Only height is defined
-                    this.setHeight(this.height);
-                } if (this.getComputedWidth() > this.width) { // Both are defined, landscape
-                    this.setWidth(this.width);
-                } else { // Both are defined, portrait
-                    this.setHeight(this.height);
-                }
+                this.computeSize();
             });
+
+            $scope.$watchGroup([
+                'image.width',
+                'image.height'
+            ], () => {
+                this.computeSize()
+            });
+        }
+
+        /**
+         * @name AmoImageController#computeSize
+         * @description Computes the width and height of the image
+         */
+        private computeSize() {
+            this.computedHeight = null;
+            this.computedWidth = null;
+
+            if (angular.isUndefined(this.width) && angular.isUndefined(this.height)) { return; }
+
+            if (angular.isUndefined(this.height)) { // Only width is defined
+                this.setWidth(this.width);
+            } else if (angular.isUndefined(this.width)) { // Only height is defined
+                this.setHeight(this.height);
+            } if (this.getComputedWidth() > this.width) { // Both are defined, landscape
+                this.setWidth(this.width);
+            } else { // Both are defined, portrait
+                this.setHeight(this.height);
+            }
         }
 
         /**
