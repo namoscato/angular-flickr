@@ -1,4 +1,4 @@
-# AngularJS Flickr Components
+# AngularJS Flickr Components [![Build Status](https://travis-ci.org/namoscato/angular-flickr.svg?branch=master)](https://travis-ci.org/namoscato/angular-flickr)
 
 A collection of 1.x [AngularJS](https://angularjs.org/) [Flickr](https://www.flickr.com/) components written in [TypeScript](http://www.typescriptlang.org/).
 
