@@ -9,6 +9,8 @@ namespace amo.flickr.core {
      * @ngdoc controller
      * @module amo.flickr.core
      * @name AmoImageController
+     * @requires $scope
+     * @requires $window
      */
     export class ImageController implements IImageDirectiveBindings {
         computedHeight: number;
@@ -26,7 +28,9 @@ namespace amo.flickr.core {
         /**
          * @ngInject
          */
-        constructor($scope: ng.IScope) {
+        constructor(
+            $scope: ng.IScope,
+            $window: ng.IWindowService) {
             let asynchronousImage: HTMLImageElement,
                 width: number;
 
@@ -35,7 +39,7 @@ namespace amo.flickr.core {
 
                 this.isLoaded = false;
 
-                asynchronousImage = new Image();
+                asynchronousImage = new (<any>$window).Image();
                 asynchronousImage.onload = () => {
                     $scope.$apply(() => {
                         this.source = asynchronousImage.src;
@@ -43,7 +47,7 @@ namespace amo.flickr.core {
                     });
 
                     if (angular.isDefined(this.thumbnailSource)) {
-                        asynchronousImage = new Image();
+                        asynchronousImage = new (<any>$window).Image();
                         asynchronousImage.onload = () => {
                             $scope.$apply(() => {
                                 this.source = asynchronousImage.src;
@@ -83,7 +87,7 @@ namespace amo.flickr.core {
                 this.setWidth(this.width);
             } else if (angular.isUndefined(this.width)) { // Only height is defined
                 this.setHeight(this.height);
-            } if (this.getComputedWidth() > this.width) { // Both are defined, landscape
+            } else if (this.getComputedWidth() > this.width) { // Both are defined, landscape
                 this.setWidth(this.width);
             } else { // Both are defined, portrait
                 this.setHeight(this.height);
@@ -126,7 +130,9 @@ namespace amo.flickr.core {
          */
         private setLeftOffset(offset?: number): void {
             if (angular.isUndefined(offset)) {
-                offset = (this.width - this.getComputedWidth()) / 2;
+                offset = angular.isDefined(this.width)
+                    ? (this.width - this.getComputedWidth()) / 2
+                    : 0;
             }
 
             this.imageStyle.left = offset + 'px';

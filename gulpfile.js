@@ -80,12 +80,15 @@ gulp.task('serve', 'Run a local webserver', function() {
 });
 
 gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
-    gulp.watch(['src/app/**/*.ts'], [
+    gulp.watch([
+        'src/app/**/*.ts',
+        'src/lib/**/*.ts',
+    ], [
         'js:app',
         'js:lint'
     ]);
 
-    gulp.watch(['src/app/**/*.html'], [
+    gulp.watch(['src/lib/**/*.html'], [
         'js:app'
     ]);
 
