@@ -31,6 +31,8 @@
     "karma": "^0.13.16",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.2",
+    "phantomjs": "^1.9.19",
     "streamqueue": "^1.1.1",
     "tslint": "^3.0.0",
     "typescript": "^1.7.3"
