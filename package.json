@@ -1,7 +1,17 @@
 {
   "name": "angular-flickr",
+  "license": "MIT",
   "version": "1.0.0",
-  "description": "",
+  "description": "AngularJS Flickr components written in TypeScript",
+  "scripts": {
+    "postinstall": "bower install && tsd install",
+    "pretest": "gulp all",
+    "test": "karma start --single-run --browsers PhantomJS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/namoscato/angular-flickr.git"
+  },
   "devDependencies": {
     "add-stream": "^1.0.0",
     "del": "^2.0.2",
@@ -24,10 +34,5 @@
     "streamqueue": "^1.1.1",
     "tslint": "^3.0.0",
     "typescript": "^1.7.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/namoscato/angular-flickr.git"
-  },
-  "license": "MIT"
+  }
 }
