@@ -1,9 +1,9 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.core
      * @name AmoFlickrPhotoController
      * @requires $scope
      */
@@ -54,6 +54,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .controller('AmoFlickrPhotoController', FlickrPhotoController);
 }

@@ -6,9 +6,9 @@ A collection of 1.x [AngularJS](https://angularjs.org/) [Flickr](https://www.fli
 
 ## Usage
 
-1. Declare a dependency on the `amo.flickrAlbum` module:
+1. Declare a dependency on the `amo.flickr` module:
 
-        angular.module('myModule', ['amo.flickrAlbum']);
+        angular.module('myModule', ['amo.flickr']);
 
 2. After [requesting a Flickr API key](https://www.flickr.com/services/apps/create/apply/), inject the `amoFlickrConfiguration` provider into your module's run block for configuration:
 

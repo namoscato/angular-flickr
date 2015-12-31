@@ -1,16 +1,16 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.album {
     'use strict';
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.album
      * @name AmoFlickrAlbumController
      * @requires $scope
      * @requires amoFlickrApiService
      */
     export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
         albumId: string;
-        album: IFlickrAlbum;
+        album: amo.flickr.core.IFlickrAlbum;
         currentPhotoIndex: number;
         photoHeight: number;
         photoWidth: number;
@@ -23,8 +23,8 @@ namespace amo.flickrAlbum {
         constructor(
             private $element: ng.IAugmentedJQuery,
             private $scope: ng.IScope,
-            amoFlickrApiService: IFlickrApiService,
-            private amoFlickrConfiguration: IFlickrConfiguration) {
+            amoFlickrApiService: amo.flickr.core.IFlickrApiService,
+            private amoFlickrConfiguration: amo.flickr.core.IFlickrConfiguration) {
 
             this.setPhotoSize();
             this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
@@ -60,7 +60,7 @@ namespace amo.flickrAlbum {
          * @param {Object} photo
          * @returns {Boolean}
          */
-        getCurrentPhoto(): IFlickrPhoto {
+        getCurrentPhoto(): amo.flickr.core.IFlickrPhoto {
             if (angular.isUndefined(this.album)) { return null; }
 
             return this.album.photo[this.currentPhotoIndex];
@@ -73,7 +73,7 @@ namespace amo.flickrAlbum {
          * @param {Object} photo
          * @returns {Boolean}
          */
-        isPhotoActive(photo: IFlickrPhoto): boolean {
+        isPhotoActive(photo: amo.flickr.core.IFlickrPhoto): boolean {
             if (this.currentPhotoIndex < 0) { return false; }
 
             return this.getCurrentPhoto().id === photo.id;
@@ -124,6 +124,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.album')
         .controller('AmoFlickrAlbumController', FlickrAlbumController);
 }

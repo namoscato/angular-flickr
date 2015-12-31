@@ -1,4 +1,4 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     interface IImageStyle {
@@ -7,7 +7,7 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.core
      * @name AmoImageController
      */
     export class ImageController implements IImageDirectiveBindings {
@@ -145,6 +145,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .controller('AmoImageController', ImageController);
 }

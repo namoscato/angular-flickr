@@ -60,7 +60,7 @@ gulp.task('js:app', 'Compile application JavaScript', function() {
         .pipe(gulpNgAnnotate())
         .pipe(addStream.obj(gulp.src('src/app/**/*.html')
             .pipe(gulpAngularTemplateCache('templates.js', {
-                module: 'amo.flickrAlbum'
+                module: 'amo.flickr.core'
             })
         )));
 

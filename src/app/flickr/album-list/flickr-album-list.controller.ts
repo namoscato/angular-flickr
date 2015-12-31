@@ -1,21 +1,21 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.albumList {
     'use strict';
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.albumList
      * @name AmoFlickrAlbumListController
      * @requires amoFlickrApiService
      */
     export class FlickrAlbumListController implements IFlickrAlbumListDirectiveBindings {
         currentAlbumId: string;
-        albums: Array<IFlickrAlbum>;
+        albums: Array<amo.flickr.core.IFlickrAlbum>;
         userId: string;
 
         /**
          * @ngInject
          */
-        constructor(amoFlickrApiService: IFlickrApiService) {
+        constructor(amoFlickrApiService: amo.flickr.core.IFlickrApiService) {
             amoFlickrApiService.fetchAlbumList(this.userId).then((albums) => {
                 this.albums = albums;
 
@@ -32,7 +32,7 @@ namespace amo.flickrAlbum {
          * @param {Object} album
          * @returns {Boolean}
          */
-        isAlbumActive(album: IFlickrAlbum): boolean {
+        isAlbumActive(album: amo.flickr.core.IFlickrAlbum): boolean {
             return this.currentAlbumId === album.id;
         }
 
@@ -41,12 +41,12 @@ namespace amo.flickrAlbum {
          * @name AmoFlickrAlbumListController#setAlbum
          * @param {Object} album
          */
-        setAlbum(album: IFlickrAlbum) {
+        setAlbum(album: amo.flickr.core.IFlickrAlbum) {
             this.currentAlbumId = album.id;
         }
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.albumList')
         .controller('AmoFlickrAlbumListController', FlickrAlbumListController);
 }

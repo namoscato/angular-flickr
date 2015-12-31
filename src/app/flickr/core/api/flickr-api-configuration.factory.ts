@@ -1,9 +1,9 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     /**
      * @ngdoc factory
-     * @module amo.flickrAlbum
+     * @module amo.flickr.core
      * @name amoFlickrApiConfigurationFactory
      */
     export class FlickrApiConfigurationFactory {
@@ -21,6 +21,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .factory('amoFlickrApiConfigurationFactory', FlickrApiConfigurationFactory);
 }

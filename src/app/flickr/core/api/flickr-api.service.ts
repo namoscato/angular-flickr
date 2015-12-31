@@ -1,4 +1,4 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     export interface IFlickrApiService {
@@ -24,7 +24,7 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc service
-     * @module amo.flickrAlbum
+     * @module amo.flickr.core
      * @name amoFlickrApiService
      * @requires $http
      * @requires $q
@@ -111,6 +111,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .service('amoFlickrApiService', FlickrApiService);
 }

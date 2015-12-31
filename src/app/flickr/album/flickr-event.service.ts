@@ -1,9 +1,9 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.album {
     'use strict';
 
     /**
      * @ngdoc service
-     * @module amo.flickrAlbum
+     * @module amo.flickr.album
      * @name amoFlickrEventService
      * @requires $rootScope
      * @requires $window
@@ -39,6 +39,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.album')
         .service('amoFlickrEventService', FlickrEventService);
 }

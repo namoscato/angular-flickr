@@ -1,4 +1,4 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.album {
     'use strict';
 
     export interface IFlickrAlbumDirectiveBindings {
@@ -8,7 +8,7 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc directive
-     * @module amo.flickrAlbum
+     * @module amo.flickr.album
      * @name amoFlickrAlbum
      */
     export class FlickrAlbumDirective implements ng.IDirective {
@@ -21,7 +21,7 @@ namespace amo.flickrAlbum {
             albumId: '@',
             userId: '@'
         };
-        templateUrl: string = 'flickr-album/album/flickr-album.html';
+        templateUrl: string = 'flickr/album/flickr-album.html';
 
         /**
          * @name amoFlickrAlbum#instance
@@ -34,6 +34,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.album')
         .directive('amoFlickrAlbum', FlickrAlbumDirective.instance);
 }
