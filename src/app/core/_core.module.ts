@@ -7,6 +7,6 @@ namespace app.core {
      * @name flickrAlbumDemo.core
      */
     angular.module('flickrAlbumDemo.core', [
-        'amo.flickrAlbum'
+        'amo.flickr'
     ]);
 }

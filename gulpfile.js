@@ -5,8 +5,8 @@ var addStream = require('add-stream'),
     gulp = require('gulp'),
     gulpAngularTemplateCache = require('gulp-angular-templatecache'),
     gulpConcat = require('gulp-concat'),
+    gulpCssnano = require('gulp-cssnano'),
     gulpHelp = require('gulp-help')(gulp),
-    gulpMinifyCss = require('gulp-minify-css'),
     gulpNgAnnotate = require('gulp-ng-annotate'),
     gulpRename = require('gulp-rename'),
     gulpSass = require('gulp-sass'),
@@ -24,38 +24,36 @@ var tsProject = gulpTypescript.createProject({
 });
 
 gulp.task('all', 'Build application', [
-    'css:app',
+    'css',
     'js:app',
     'js:libs',
     'js:lint'
 ]);
 
-gulp.task('css:app', 'Compile application SASS', function() {
+gulp.task('css', 'Compile application SASS', function() {
     gulp.src('src/content/styles/app.scss')
         .pipe(gulpSass().on('error', gulpSass.logError))
-        .pipe(gulpMinifyCss({
-            advanced: false,
-            aggressiveMerging: false,
-            keepSpecialComments: false,
-            rebase: false,
-            sourceMap: false
-        }))
+        .pipe(gulpCssnano())
         .pipe(gulp.dest('src/dist/css'));
 });
 
 gulp.task('js:app', 'Compile application JavaScript', function() {
     var stream = streamqueue({objectMode: true},
         gulp.src('typings/**/*.d.ts'),
+        gulp.src('src/lib/**/*.module.ts'),
         gulp.src('src/app/**/*.module.ts'),
         gulp.src([
+            'src/lib/**/*.ts',
             'src/app/**/*.ts',
+            '!src/lib/**/*.module.ts',
             '!src/app/**/*.module.ts'
         ]))
         .pipe(gulpTypescript(tsProject))
         .pipe(gulpNgAnnotate())
-        .pipe(addStream.obj(gulp.src('src/app/**/*.html')
+        .pipe(addStream.obj(gulp.src('src/lib/**/*.html')
             .pipe(gulpAngularTemplateCache('templates.js', {
-                module: 'amo.flickrAlbum'
+                module: 'amo.flickr.core',
+                root: 'flickr'
             })
         )));
 
@@ -82,12 +80,15 @@ gulp.task('serve', 'Run a local webserver', function() {
 });
 
 gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
-    gulp.watch(['src/app/**/*.ts'], [
+    gulp.watch([
+        'src/app/**/*.ts',
+        'src/lib/**/*.ts',
+    ], [
         'js:app',
         'js:lint'
     ]);
 
-    gulp.watch(['src/app/**/*.html'], [
+    gulp.watch(['src/lib/**/*.html'], [
         'js:app'
     ]);
 
@@ -96,7 +97,7 @@ gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
     ]);
 
     gulp.watch(['src/content/styles/**/*.scss'], [
-        'css:app'
+        'css'
     ]);
 });
 

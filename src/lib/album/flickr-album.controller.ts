@@ -1,17 +1,19 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.album {
     'use strict';
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.album
      * @name AmoFlickrAlbumController
+     * @requires $element
      * @requires $scope
      * @requires amoFlickrApiService
+     * @requires amoFlickrConfiguration
      */
     export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
         albumId: string;
-        album: IFlickrAlbum;
-        currentPhotoIndex: number;
+        album: amo.flickr.core.IFlickrAlbum;
+        currentPhotoIndex: number = -1;
         photoHeight: number;
         photoWidth: number;
         thumbnailSize: number;
@@ -23,16 +25,14 @@ namespace amo.flickrAlbum {
         constructor(
             private $element: ng.IAugmentedJQuery,
             private $scope: ng.IScope,
-            amoFlickrApiService: IFlickrApiService,
-            private amoFlickrConfiguration: IFlickrConfiguration) {
+            amoFlickrApiService: amo.flickr.core.IFlickrApiService,
+            private amoFlickrConfiguration: amo.flickr.core.IFlickrConfiguration) {
 
             this.setPhotoSize();
             this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
 
             $scope.$on('amo.flickr.windowResize', () => {
-                this.$scope.$apply(() => {
-                    this.setPhotoSize();
-                });
+                this.$scope.$apply(() => this.setPhotoSize());
             });
 
             $scope.$on('amo.flickr.navigateNext', () => {
@@ -44,7 +44,7 @@ namespace amo.flickrAlbum {
             });
 
             $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
-                if (angular.isUndefined(albumId)) { return; }
+                if (!albumId) { return; }
 
                 amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
                     this.currentPhotoIndex = album.photo.length > 0 ? 0 : -1;
@@ -60,7 +60,7 @@ namespace amo.flickrAlbum {
          * @param {Object} photo
          * @returns {Boolean}
          */
-        getCurrentPhoto(): IFlickrPhoto {
+        getCurrentPhoto(): amo.flickr.core.IFlickrPhoto {
             if (angular.isUndefined(this.album)) { return null; }
 
             return this.album.photo[this.currentPhotoIndex];
@@ -73,7 +73,7 @@ namespace amo.flickrAlbum {
          * @param {Object} photo
          * @returns {Boolean}
          */
-        isPhotoActive(photo: IFlickrPhoto): boolean {
+        isPhotoActive(photo: amo.flickr.core.IFlickrPhoto): boolean {
             if (this.currentPhotoIndex < 0) { return false; }
 
             return this.getCurrentPhoto().id === photo.id;
@@ -124,6 +124,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.album')
         .controller('AmoFlickrAlbumController', FlickrAlbumController);
 }

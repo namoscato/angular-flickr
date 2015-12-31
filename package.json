@@ -1,16 +1,25 @@
 {
   "name": "angular-flickr",
+  "license": "MIT",
   "version": "1.0.0",
-  "description": "",
+  "description": "AngularJS Flickr components written in TypeScript",
+  "scripts": {
+    "postinstall": "bower install && tsd install",
+    "pretest": "gulp all",
+    "test": "karma start --single-run --browsers PhantomJS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/namoscato/angular-flickr.git"
+  },
   "devDependencies": {
     "add-stream": "^1.0.0",
-    "angular2": "^2.0.0-alpha.46",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
     "gulp-concat": "^2.6.0",
+    "gulp-cssnano": "^2.0.0",
     "gulp-help": "^1.6.0",
-    "gulp-minify-css": "^1.2.0",
     "gulp-ng-annotate": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
@@ -18,9 +27,14 @@
     "gulp-typescript": "^2.9.2",
     "gulp-uglify": "^1.2.0",
     "gulp-webserver": "^0.9.1",
-    "streamqueue": "^0.1.3",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.2",
+    "phantomjs": "^1.9.19",
+    "streamqueue": "^1.1.1",
     "tslint": "^3.0.0",
     "typescript": "^1.7.3"
-  },
-  "license": "MIT"
+  }
 }

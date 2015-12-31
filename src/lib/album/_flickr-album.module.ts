@@ -1,13 +1,13 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.album {
     'use strict';
 
     /**
      * @ngdoc run
-     * @module amo.flickrAlbum
+     * @module amo.flickr.album
      * @name RunBlock
      * @requires amoFlickrEventService
      */
-    export class RunBlock {
+    class RunBlock {
 
         /**
          * @ngInject
@@ -17,8 +17,8 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc module
-     * @module amo.flickrAlbum
-     * @name amo.flickrAlbum
+     * @module amo.flickr.album
+     * @name amo.flickr.album
      */
-    angular.module('amo.flickrAlbum', []).run(RunBlock);
+    angular.module('amo.flickr.album', ['amo.flickr.core']).run(RunBlock);
 }

@@ -1,4 +1,4 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     interface IImageStyle {
@@ -7,8 +7,10 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc controller
-     * @module amo.flickrAlbum
+     * @module amo.flickr.core
      * @name AmoImageController
+     * @requires $scope
+     * @requires $window
      */
     export class ImageController implements IImageDirectiveBindings {
         computedHeight: number;
@@ -18,6 +20,7 @@ namespace amo.flickrAlbum {
         imageSource: string;
         imageStyle: IImageStyle = {};
         imageWidth: string;
+        isLoaded: boolean;
         source: string;
         thumbnailSource: string;
         width: number;
@@ -25,46 +28,70 @@ namespace amo.flickrAlbum {
         /**
          * @ngInject
          */
-        constructor($scope: ng.IScope) {
+        constructor(
+            $scope: ng.IScope,
+            $window: ng.IWindowService) {
             let asynchronousImage: HTMLImageElement,
                 width: number;
 
+            $scope.$watch('image.imageSource', (imageSource) => {
+                if (angular.isUndefined(imageSource)) { return; }
+
+                this.isLoaded = false;
+
+                asynchronousImage = new (<any>$window).Image();
+                asynchronousImage.onload = () => {
+                    $scope.$apply(() => {
+                        this.source = asynchronousImage.src;
+                        this.isLoaded = true;
+                    });
+
+                    if (angular.isDefined(this.thumbnailSource)) {
+                        asynchronousImage = new (<any>$window).Image();
+                        asynchronousImage.onload = () => {
+                            $scope.$apply(() => {
+                                this.source = asynchronousImage.src;
+                            });
+                        };
+
+                        asynchronousImage.src = this.imageSource;
+                    }
+                };
+
+                asynchronousImage.src = angular.isDefined(this.thumbnailSource)
+                    ? this.thumbnailSource
+                    : this.imageSource;
+
+                this.computeSize();
+            });
+
             $scope.$watchGroup([
-                'image.imageSource',
                 'image.width',
                 'image.height'
-            ], (values: Array<number|IFlickrPhoto>) => {
-                if (angular.isUndefined(values[0])) { return; }
-
-                if (angular.isDefined(this.thumbnailSource)) {
-                    this.source = this.thumbnailSource;
-
-                    asynchronousImage = new Image();
-                    asynchronousImage.onload = () => {
-                        $scope.$apply(() => {
-                            this.source = asynchronousImage.src;
-                        });
-                    };
-                    asynchronousImage.src = this.imageSource;
-                } else {
-                    this.source = this.imageSource;
-                }
-
-                this.computedHeight = null;
-                this.computedWidth = null;
-
-                if (angular.isUndefined(values[1]) && angular.isUndefined(values[2])) { return; }
-
-                if (angular.isUndefined(this.height)) { // Only width is defined
-                    this.setWidth(this.width);
-                } else if (angular.isUndefined(this.width)) { // Only height is defined
-                    this.setHeight(this.height);
-                } if (this.getComputedWidth() > this.width) { // Both are defined, landscape
-                    this.setWidth(this.width);
-                } else { // Both are defined, portrait
-                    this.setHeight(this.height);
-                }
+            ], () => {
+                this.computeSize()
             });
+        }
+
+        /**
+         * @name AmoImageController#computeSize
+         * @description Computes the width and height of the image
+         */
+        private computeSize() {
+            this.computedHeight = null;
+            this.computedWidth = null;
+
+            if (angular.isUndefined(this.width) && angular.isUndefined(this.height)) { return; }
+
+            if (angular.isUndefined(this.height)) { // Only width is defined
+                this.setWidth(this.width);
+            } else if (angular.isUndefined(this.width)) { // Only height is defined
+                this.setHeight(this.height);
+            } else if (this.getComputedWidth() > this.width) { // Both are defined, landscape
+                this.setWidth(this.width);
+            } else { // Both are defined, portrait
+                this.setHeight(this.height);
+            }
         }
 
         /**
@@ -103,7 +130,9 @@ namespace amo.flickrAlbum {
          */
         private setLeftOffset(offset?: number): void {
             if (angular.isUndefined(offset)) {
-                offset = (this.width - this.getComputedWidth()) / 2;
+                offset = angular.isDefined(this.width)
+                    ? (this.width - this.getComputedWidth()) / 2
+                    : 0;
             }
 
             this.imageStyle.left = offset + 'px';
@@ -122,6 +151,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .controller('AmoImageController', ImageController);
 }

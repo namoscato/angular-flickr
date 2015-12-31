@@ -1,4 +1,4 @@
-namespace amo.flickrAlbum {
+namespace amo.flickr.core {
     'use strict';
 
     export interface IFlickrConfiguration {
@@ -15,7 +15,7 @@ namespace amo.flickrAlbum {
 
     /**
      * @ngdoc provider
-     * @module amo.flickrAlbum
+     * @module amo.flickr
      * @name amoFlickrConfigurationProvider
      */
     export class FlickrConfigurationProvider {
@@ -64,6 +64,6 @@ namespace amo.flickrAlbum {
     }
 
     angular
-        .module('amo.flickrAlbum')
+        .module('amo.flickr.core')
         .provider('amoFlickrConfiguration', FlickrConfigurationProvider);
 }

@@ -1,0 +1,23 @@
+namespace app.core {
+    'use strict';
+
+    /**
+     * @ngdoc config
+     * @module flickrAlbumDemo.core
+     * @name AppConfig
+     * @requires amoFlickrConfigurationProvider
+     */
+    export class AppConfig {
+
+        /**
+         * @ngInject
+         */
+        constructor(amoFlickrConfigurationProvider: amo.flickr.core.FlickrConfigurationProvider) {
+            amoFlickrConfigurationProvider.setApiKey('ABC123');
+        }
+    }
+
+    angular
+        .module('flickrAlbumDemo.core')
+        .config(AppConfig);
+}
