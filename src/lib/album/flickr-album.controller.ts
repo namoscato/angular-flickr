@@ -5,13 +5,15 @@ namespace amo.flickr.album {
      * @ngdoc controller
      * @module amo.flickr.album
      * @name AmoFlickrAlbumController
+     * @requires $element
      * @requires $scope
      * @requires amoFlickrApiService
+     * @requires amoFlickrConfiguration
      */
     export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
         albumId: string;
         album: amo.flickr.core.IFlickrAlbum;
-        currentPhotoIndex: number;
+        currentPhotoIndex: number = -1;
         photoHeight: number;
         photoWidth: number;
         thumbnailSize: number;
@@ -30,9 +32,7 @@ namespace amo.flickr.album {
             this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
 
             $scope.$on('amo.flickr.windowResize', () => {
-                this.$scope.$apply(() => {
-                    this.setPhotoSize();
-                });
+                this.$scope.$apply(() => this.setPhotoSize());
             });
 
             $scope.$on('amo.flickr.navigateNext', () => {

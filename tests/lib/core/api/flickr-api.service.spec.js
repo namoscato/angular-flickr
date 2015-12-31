@@ -3,9 +3,7 @@ describe('amoFlickrApiService', function() {
         target;
 
     var httpSpy,
-        qSpy,
-        amoFlickrApiConfigurationFactorySpy,
-        amoFlickrConfigurationSpy;
+        qSpy;
 
     var getSpy,
         httpGetSpy;
