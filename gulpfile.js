@@ -40,16 +40,20 @@ gulp.task('css', 'Compile application SASS', function() {
 gulp.task('js:app', 'Compile application JavaScript', function() {
     var stream = streamqueue({objectMode: true},
         gulp.src('typings/**/*.d.ts'),
+        gulp.src('src/lib/**/*.module.ts'),
         gulp.src('src/app/**/*.module.ts'),
         gulp.src([
+            'src/lib/**/*.ts',
             'src/app/**/*.ts',
+            '!src/lib/**/*.module.ts',
             '!src/app/**/*.module.ts'
         ]))
         .pipe(gulpTypescript(tsProject))
         .pipe(gulpNgAnnotate())
-        .pipe(addStream.obj(gulp.src('src/app/**/*.html')
+        .pipe(addStream.obj(gulp.src('src/lib/**/*.html')
             .pipe(gulpAngularTemplateCache('templates.js', {
-                module: 'amo.flickr.core'
+                module: 'amo.flickr.core',
+                root: 'flickr'
             })
         )));
 
