@@ -4,10 +4,9 @@ var addStream = require('add-stream'),
     del = require('del'),
     gulp = require('gulp'),
     gulpAngularTemplateCache = require('gulp-angular-templatecache'),
-    gulpAutoprefixer = require('gulp-autoprefixer'),
     gulpConcat = require('gulp-concat'),
+    gulpCssnano = require('gulp-cssnano'),
     gulpHelp = require('gulp-help')(gulp),
-    gulpMinifyCss = require('gulp-minify-css'),
     gulpNgAnnotate = require('gulp-ng-annotate'),
     gulpRename = require('gulp-rename'),
     gulpSass = require('gulp-sass'),
@@ -25,26 +24,16 @@ var tsProject = gulpTypescript.createProject({
 });
 
 gulp.task('all', 'Build application', [
-    'css:app',
+    'css',
     'js:app',
     'js:libs',
     'js:lint'
 ]);
 
-gulp.task('css:app', 'Compile application SASS', function() {
+gulp.task('css', 'Compile application SASS', function() {
     gulp.src('src/content/styles/app.scss')
         .pipe(gulpSass().on('error', gulpSass.logError))
-        .pipe(gulpAutoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
-        .pipe(gulpMinifyCss({
-            advanced: false,
-            aggressiveMerging: false,
-            keepSpecialComments: false,
-            rebase: false,
-            sourceMap: false
-        }))
+        .pipe(gulpCssnano())
         .pipe(gulp.dest('src/dist/css'));
 });
 
@@ -101,7 +90,7 @@ gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
     ]);
 
     gulp.watch(['src/content/styles/**/*.scss'], [
-        'css:app'
+        'css'
     ]);
 });
 

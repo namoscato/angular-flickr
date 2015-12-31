@@ -29,6 +29,7 @@ namespace amo.flickr.core {
      * @requires $http
      * @requires $q
      * @requires amoFlickrApiConfigurationFactory
+     * @requires amoFlickrConfiguration
      */
     export class FlickrApiService {
 
@@ -44,6 +45,7 @@ namespace amo.flickr.core {
 
         /**
          * @name amoFlickrApiService#get
+         * @description Executes a Flickr GET request
          * @param {String} method Namespaced method, excluding the "flickr" suffix
          * @param {Object} [config]
          * @returns {Promise}
