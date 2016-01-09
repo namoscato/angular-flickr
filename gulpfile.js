@@ -1,7 +1,6 @@
 'use strict';
 
 var addStream = require('add-stream'),
-    del = require('del'),
     gulp = require('gulp'),
     gulpAngularTemplateCache = require('gulp-angular-templatecache'),
     gulpConcat = require('gulp-concat'),
@@ -13,8 +12,27 @@ var addStream = require('add-stream'),
     gulpTypescript = require('gulp-typescript'),
     gulpTsLint = require('gulp-tslint'),
     gulpUglify = require('gulp-uglify'),
-    gulpWebserver = require('gulp-webserver'),
-    streamqueue = require('streamqueue');
+    gulpWebserver = require('gulp-webserver');
+
+var css = {
+    src: 'src/content/styles/app.scss',
+    dest: 'src/dist/css'
+};
+
+var js = {
+    src: {
+        app: [
+            'typings/**/*.d.ts',
+            'src/lib/**/*.module.ts',
+            'src/app/**/*.module.ts',
+            'src/lib/**/*.ts',
+            'src/app/**/*.ts'
+        ],
+        libs: 'bower_components/angular/angular.js',
+        templates: 'src/lib/**/*.html'
+    },
+    dest: 'src/dist/js'
+};
 
 var tsProject = gulpTypescript.createProject({
     noImplicitAny: true,
@@ -31,26 +49,17 @@ gulp.task('all', 'Build application', [
 ]);
 
 gulp.task('css', 'Compile application SASS', function() {
-    gulp.src('src/content/styles/app.scss')
+    gulp.src(css.src)
         .pipe(gulpSass().on('error', gulpSass.logError))
         .pipe(gulpCssnano())
-        .pipe(gulp.dest('src/dist/css'));
+        .pipe(gulp.dest(css.dest));
 });
 
 gulp.task('js:app', 'Compile application JavaScript', function() {
-    var stream = streamqueue({objectMode: true},
-        gulp.src('typings/**/*.d.ts'),
-        gulp.src('src/lib/**/*.module.ts'),
-        gulp.src('src/app/**/*.module.ts'),
-        gulp.src([
-            'src/lib/**/*.ts',
-            'src/app/**/*.ts',
-            '!src/lib/**/*.module.ts',
-            '!src/app/**/*.module.ts'
-        ]))
+    var stream = gulp.src(js.src.app)
         .pipe(gulpTypescript(tsProject))
         .pipe(gulpNgAnnotate())
-        .pipe(addStream.obj(gulp.src('src/lib/**/*.html')
+        .pipe(addStream.obj(gulp.src(js.src.templates)
             .pipe(gulpAngularTemplateCache('templates.js', {
                 module: 'amo.flickr.core',
                 root: 'flickr'
@@ -61,7 +70,7 @@ gulp.task('js:app', 'Compile application JavaScript', function() {
 });
 
 gulp.task('js:libs', 'Compile third party JavaScript', function() {
-    return compileJavaScript(gulp.src('bower_components/angular/angular.js'), 'vendor');
+    return compileJavaScript(gulp.src(js.src.libs), 'vendor');
 });
 
 gulp.task('js:lint', 'Check for JavaScript code quality', function() {
@@ -114,5 +123,5 @@ function compileJavaScript(stream, name) {
             mangle: false
         }))
         .pipe(gulpRename(name + '.min.js'))
-        .pipe(gulp.dest('src/dist/js'));
+        .pipe(gulp.dest(js.dest));
 }
