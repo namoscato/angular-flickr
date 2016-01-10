@@ -28,7 +28,7 @@ var js = {
             'src/lib/**/*.ts',
             'src/app/**/*.ts'
         ],
-        libs: 'bower_components/angular/angular.js',
+        libs: 'node_modules/angular/angular.js',
         templates: 'src/lib/**/*.html'
     },
     dest: 'src/dist/js'
@@ -101,7 +101,7 @@ gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
         'js:app'
     ]);
 
-    gulp.watch(['bower_components/**/*.js'], [
+    gulp.watch(['node_modules/**/*.js'], [
         'js:libs'
     ]);
 

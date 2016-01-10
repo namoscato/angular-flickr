@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "AngularJS Flickr components written in TypeScript",
   "scripts": {
-    "postinstall": "bower install && tsd install",
+    "postinstall": "tsd install",
     "pretest": "gulp all",
     "test": "karma start --single-run --browsers PhantomJS"
   },
@@ -14,7 +14,8 @@
   },
   "devDependencies": {
     "add-stream": "^1.0.0",
-    "bower": "^1.7.2",
+    "angular": "^1.4.8",
+    "angular-mocks": "^1.4.8",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
     "gulp-concat": "^2.6.0",
