@@ -21,25 +21,13 @@ var css = {
 
 var js = {
     src: {
-        app: [
-            'typings/**/*.d.ts',
-            'src/lib/**/*.module.ts',
-            'src/app/**/*.module.ts',
-            'src/lib/**/*.ts',
-            'src/app/**/*.ts'
-        ],
         libs: 'node_modules/angular/angular.js',
         templates: 'src/lib/**/*.html'
     },
     dest: 'src/dist/js'
 };
 
-var tsProject = gulpTypescript.createProject({
-    noImplicitAny: true,
-    noExternalResolve: true,
-    out: 'app.js',
-    typescript: require('typescript')
-});
+var tsProject = gulpTypescript.createProject('tsconfig.json');
 
 gulp.task('all', 'Build application', [
     'css',
@@ -56,7 +44,7 @@ gulp.task('css', 'Compile application SASS', function() {
 });
 
 gulp.task('js:app', 'Compile application JavaScript', function() {
-    var stream = gulp.src(js.src.app)
+    var stream = tsProject.src()
         .pipe(gulpTypescript(tsProject))
         .pipe(gulpNgAnnotate())
         .pipe(addStream.obj(gulp.src(js.src.templates)
