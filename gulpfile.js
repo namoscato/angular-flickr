@@ -21,7 +21,14 @@ var css = {
 
 var js = {
     src: {
-        libs: 'node_modules/angular/angular.js',
+        app: [
+            'src/app/**/*.ts',
+            'src/lib/**/*.ts'
+        ],
+        libs: [
+            'node_modules/jQuery/tmp/jquery.js',
+            'node_modules/angular/angular.js'
+        ],
         templates: 'src/lib/**/*.html'
     },
     dest: 'src/dist/js'
@@ -62,7 +69,7 @@ gulp.task('js:libs', 'Compile third party JavaScript', function() {
 });
 
 gulp.task('js:lint', 'Check for JavaScript code quality', function() {
-    gulp.src('src/app/**/*.ts')
+    gulp.src(js.src.app)
         .pipe(gulpTsLint())
         .pipe(gulpTsLint.report('verbose'));
 });
@@ -77,25 +84,28 @@ gulp.task('serve', 'Run a local webserver', function() {
 });
 
 gulp.task('watch', 'Watch for changes and recompile', ['all'], function() {
-    gulp.watch([
-        'src/app/**/*.ts',
-        'src/lib/**/*.ts',
-    ], [
-        'js:app',
-        'js:lint'
-    ]);
+    gulp.watch(
+        js.src.app,
+        [
+            'js:app',
+            'js:lint'
+        ]
+    );
 
-    gulp.watch(['src/lib/**/*.html'], [
-        'js:app'
-    ]);
+    gulp.watch(
+        [js.src.templates],
+        ['js:app']
+    );
 
-    gulp.watch(['node_modules/**/*.js'], [
-        'js:libs'
-    ]);
+    gulp.watch(
+        ['node_modules/**/*.js'],
+        ['js:libs']
+    );
 
-    gulp.watch(['src/content/styles/**/*.scss'], [
-        'css'
-    ]);
+    gulp.watch(
+        ['src/content/styles/**/*.scss'],
+        ['css']
+    );
 });
 
 /**

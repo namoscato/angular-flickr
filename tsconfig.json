@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "emitDecoratorMetadata": true,
         "noImplicitAny": true,
         "noResolve": false,
         "out": "src/dist/js/app.js",

@@ -23,7 +23,7 @@ namespace amo.flickr.album {
          * @ngInject
          */
         constructor(
-            private $element: ng.IAugmentedJQuery,
+            private $element: JQuery,
             private $scope: ng.IScope,
             amoFlickrApiService: amo.flickr.core.IFlickrApiService,
             private amoFlickrConfiguration: amo.flickr.core.IFlickrConfiguration) {
