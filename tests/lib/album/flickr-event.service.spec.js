@@ -22,18 +22,17 @@ describe('amoFlickrEventService', function() {
             return documentSpy;
         });
 
-        $provide.service('$rootScope', function() {
-            rootScopeSpy = jasmine.createSpyObj('$rootScope', ['$broadcast']);
-            return rootScopeSpy;
-        });
-
         $provide.service('$window', function() {
             windowSpy = jasmine.createSpyObj('$window', ['addEventListener']);
             return windowSpy;
         });
     }));
 
-    beforeEach(inject(function(amoFlickrEventService) {
+    beforeEach(inject(function(amoFlickrEventService, $rootScope) {
+        rootScopeSpy = $rootScope;
+
+        spyOn($rootScope, '$broadcast');
+
         target = amoFlickrEventService;
     }));
 

@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
         "noImplicitAny": true,
+        "noResolve": false,
+        "out": "src/dist/js/app.js",
         "removeComments": true,
-        "preserveConstEnums": true,
-        "out": "dist/js/app.js"
+        "sourceMap": false
     },
     "exclude": [
-        "bower_components",
-        "node_modules"
+        "node_modules",
+        "typings/browser.d.ts",
+        "typings/browser"
     ]
 }

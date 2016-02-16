@@ -1,17 +1,13 @@
 <div class="amo-flickr-album">
-    <div class="amo-flickr-album-thumbnails">
+    <div class="amo-flickr-album-thumbnails" amo-flickr-album-thumbnail-list>
         <ul>
-            <li ng-repeat="photo in flickrAlbum.album.photo">
-                <a
-                    class="link-item"
-                    ng-class="{ 'active': flickrAlbum.isPhotoActive(photo) }"
-                    ng-click="flickrAlbum.setPhotoIndex($index)">
-                    <amo-flickr-photo
-                        height="flickrAlbum.thumbnailSize"
-                        photo="photo"
-                        size="s">
-                    </amo-flickr-photo>
-                </a>
+            <li
+                amo-flickr-album-thumbnail="photo"
+                index="{{ $index }}"
+                is-photo-active="flickrAlbum.isPhotoActive(photo)"
+                on-click="flickrAlbum.setPhotoIndex(index)"
+                ng-repeat="photo in flickrAlbum.album.photo"
+                thumbnail-size="{{ flickrAlbum.thumbnailSize }}">
             </li>
         </ul>
     </div>

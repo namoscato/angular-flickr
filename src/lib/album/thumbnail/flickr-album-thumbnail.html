@@ -1,0 +1,12 @@
+<li>
+    <a
+        class="link-item"
+        ng-class="{ 'active': albumThumbnail.isPhotoActive }"
+        ng-click="albumThumbnail.setPhotoIndex()">
+        <amo-flickr-photo
+            height="albumThumbnail.thumbnailSize"
+            photo="albumThumbnail.photo"
+            size="s">
+        </amo-flickr-photo>
+    </a>
+</li>
