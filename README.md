@@ -2,7 +2,7 @@
 
 A collection of 1.x [AngularJS](https://angularjs.org/) [Flickr](https://www.flickr.com/) components written in [TypeScript](http://www.typescriptlang.org/).
 
-![Preview](/assets/preview.jpg)
+<img src="assets/preview.jpg" width="547">
 
 ## Usage
 
