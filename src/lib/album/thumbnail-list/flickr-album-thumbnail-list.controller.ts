@@ -16,13 +16,19 @@ namespace amo.flickr.album {
         constructor(
             private $element: JQuery,
             private $scope: ng.IScope) {
+        }
 
-            let element: Element = $element[0],
+        /**
+         * @name AmoFlickrAlbumThumbnailListController#$onInit
+         * @description Initializes the controller
+         */
+        private $onInit() {
+            let element: Element = this.$element[0],
                 parentBounds: ClientRect,
                 parentWidth: number,
                 width: number;
 
-            $scope.$on('amo.flickr.thumbnailActive', (event: ng.IAngularEvent, bounds: IFlickrAlbumThumbnailActiveEvent) => {
+            this.$scope.$on('amo.flickr.thumbnailActive', (event: ng.IAngularEvent, bounds: IFlickrAlbumThumbnailActiveEvent) => {
                 parentBounds = element.getBoundingClientRect();
                 parentWidth = parentBounds.right - parentBounds.left;
                 width = bounds.offsetRight - bounds.offsetLeft;

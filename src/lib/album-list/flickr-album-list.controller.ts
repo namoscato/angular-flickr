@@ -7,7 +7,7 @@ namespace amo.flickr.albumList {
      * @name AmoFlickrAlbumListController
      * @requires amoFlickrApiService
      */
-    export class FlickrAlbumListController implements IFlickrAlbumListDirectiveBindings {
+    export class FlickrAlbumListController implements IFlickrAlbumListComponentBindings {
         currentAlbumId: string;
         albums: Array<amo.flickr.core.IFlickrAlbum>;
         userId: string;
@@ -15,8 +15,14 @@ namespace amo.flickr.albumList {
         /**
          * @ngInject
          */
-        constructor(amoFlickrApiService: amo.flickr.core.IFlickrApiService) {
-            amoFlickrApiService.fetchAlbumList(this.userId).then((albums) => {
+        constructor(private amoFlickrApiService: amo.flickr.core.IFlickrApiService) { }
+
+        /**
+         * @name AmoFlickrAlbumListController#$onInit
+         * @description Initializes the controller
+         */
+        private $onInit() {
+            this.amoFlickrApiService.fetchAlbumList(this.userId).then((albums) => {
                 this.albums = albums;
 
                 if (albums.length > 0) {

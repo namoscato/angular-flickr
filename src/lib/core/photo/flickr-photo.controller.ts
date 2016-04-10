@@ -19,8 +19,14 @@ namespace amo.flickr.core {
         /**
          * @ngInject
          */
-        constructor($scope: ng.IScope) {
-            $scope.$watchGroup([
+        constructor(private $scope: ng.IScope) { }
+
+        /**
+         * @name AmoFlickrAlbumThumbnailController#$onInit
+         * @description Initializes the controller
+         */
+        private $onInit() {
+            this.$scope.$watchGroup([
                 'flickrPhoto.photo',
                 'flickrPhoto.width',
                 'flickrPhoto.height'

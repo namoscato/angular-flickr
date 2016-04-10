@@ -23,10 +23,7 @@ describe('AmoFlickrAlbumThumbnailController', function() {
 
         elementSpy[0] = elementItemSpy;
 
-        scopeSpy = jasmine.createSpyObj('$scope', [
-            '$emit',
-            '$watch'
-        ]);
+        scopeSpy = jasmine.createSpyObj('$scope', ['$emit']);
 
         target = $controller('AmoFlickrAlbumThumbnailController', {
             $element: elementSpy,
@@ -36,17 +33,14 @@ describe('AmoFlickrAlbumThumbnailController', function() {
         target.onClick = jasmine.createSpy('onClick');
     }));
 
-    describe('When loading an album thumbnail', function() {
-        it('should watch for active status change', function() {
-            expect(scopeSpy.$watch).toHaveBeenCalledWith(
-                'albumThumbnail.isPhotoActive',
-                jasmine.any(Function)
-            );
-        });
-
+    describe('When the thumbnail bindings change', function() {
         describe('and the photo becomes inactive', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1](false);
+                target.$onChanges({
+                    isPhotoActive: {
+                        currentValue: false
+                    }
+                });
             });
 
             it('should do nothing', function() {
@@ -56,7 +50,11 @@ describe('AmoFlickrAlbumThumbnailController', function() {
 
         describe('and the photo becomes active', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1](true);
+                target.$onChanges({
+                    isPhotoActive: {
+                        currentValue: true
+                    }
+                });
             });
 
             it('should emit event', function() {

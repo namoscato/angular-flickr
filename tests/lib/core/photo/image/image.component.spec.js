@@ -1,41 +1,45 @@
-describe('AmoImageController', function() {
-    var target;
+describe('amoImage', function() {
+    var scope,
+        target;
 
-    var scopeSpy,
-        windowSpy;
+    var windowSpy;
 
     var windowImageSpy;
 
     beforeEach(module('amo.flickr.core'));
 
-    beforeEach(inject(function($controller) {
-        scopeSpy = jasmine.createSpyObj('$scope', [
-            '$apply',
-            '$watch',
-            '$watchGroup',
-        ]);
+    beforeEach(inject(function($componentController, $rootScope) {
+        scope = $rootScope.$new();
+        spyOn(scope, '$apply');
+        spyOn(scope, '$watch');
+        spyOn(scope, '$watchGroup');
 
         windowSpy = jasmine.createSpyObj('$window', ['Image']);
 
         windowImageSpy = jasmine.createSpyObj('Image', ['onload']);
         windowSpy.Image.and.returnValue(windowImageSpy);
 
-        target = $controller('AmoImageController', {
-            $scope: scopeSpy,
-            $window: windowSpy
-        });
+        target = $componentController(
+            'amoImage',
+            {
+                $scope: scope,
+                $window: windowSpy
+            }
+        );
+
+        target.$onInit();
     }));
 
     describe('When initializing an image', function() {
         it('should watch for image source changes', function() {
-            expect(scopeSpy.$watch).toHaveBeenCalledWith(
+            expect(scope.$watch).toHaveBeenCalledWith(
                 'image.imageSource',
                 jasmine.any(Function)
             );
         });
 
         it('should watch for image width and height changes', function() {
-            expect(scopeSpy.$watchGroup).toHaveBeenCalledWith(
+            expect(scope.$watchGroup).toHaveBeenCalledWith(
                 [
                     'image.width',
                     'image.height',
@@ -54,7 +58,7 @@ describe('AmoImageController', function() {
 
         describe('with an undefined source', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1]();
+                scope.$watch.calls.argsFor(0)[1]();
             });
 
             it('should do nothing', function() {
@@ -64,7 +68,7 @@ describe('AmoImageController', function() {
 
         describe('without a thumbnail', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1]({});
+                scope.$watch.calls.argsFor(0)[1]({});
             });
 
             it('should reset image loaded state', function() {
@@ -78,7 +82,7 @@ describe('AmoImageController', function() {
             describe('and the image loads', function() {
                 beforeEach(function() {
                     windowImageSpy.onload();
-                    scopeSpy.$apply.calls.argsFor(0)[0]();
+                    scope.$apply.calls.argsFor(0)[0]();
                 });
 
                 it('should set image source', function() {
@@ -103,7 +107,7 @@ describe('AmoImageController', function() {
             beforeEach(function() {
                 target.thumbnailSource = 'THUMBNAIL SOURCE';
 
-                scopeSpy.$watch.calls.argsFor(0)[1]({});
+                scope.$watch.calls.argsFor(0)[1]({});
             });
 
             it('should set image source', function() {
@@ -113,10 +117,10 @@ describe('AmoImageController', function() {
             describe('and the thumbnail loads', function() {
                 beforeEach(function() {
                     windowImageSpy.onload();
-                    scopeSpy.$apply.calls.argsFor(0)[0]();
+                    scope.$apply.calls.argsFor(0)[0]();
 
                     windowImageSpy.onload();
-                    scopeSpy.$apply.calls.argsFor(1)[0]();
+                    scope.$apply.calls.argsFor(1)[0]();
                 });
 
                 it('should load full size image', function() {
@@ -134,7 +138,7 @@ describe('AmoImageController', function() {
         beforeEach(function() {
             spyOn(target, 'computeSize');
 
-            scopeSpy.$watchGroup.calls.argsFor(0)[1]();
+            scope.$watchGroup.calls.argsFor(0)[1]();
         });
 
         it('should compute image size', function() {
