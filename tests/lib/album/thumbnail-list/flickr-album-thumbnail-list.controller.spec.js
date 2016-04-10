@@ -28,6 +28,10 @@ describe('AmoFlickrAlbumThumbnailListController', function() {
 
     describe('When loading an album thumbnail list', function() {
         beforeEach(function() {
+            target.$onInit();
+        });
+
+        beforeEach(function() {
             elementItemSpy.getBoundingClientRect.and.returnValue({
                 left: 0,
                 right: 100
@@ -103,5 +107,4 @@ describe('AmoFlickrAlbumThumbnailListController', function() {
             });
         });
     });
-
 });

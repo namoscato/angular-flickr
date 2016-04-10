@@ -1,41 +1,52 @@
-describe('AmoFlickrAlbumController', function() {
+describe('amoFlickrAlbum', function() {
     var result,
+        scope,
         target;
 
-    var scopeSpy,
+    var elementSpy,
         amoFlickrApiServiceSpy;
 
-    var amoFlickrApiServiceFetchAlbumSpy;
+    var amoFlickrApiServiceFetchAlbumSpy,
+        elementChildrenSpy;
 
     beforeEach(module('amo.flickr.album'));
 
-    beforeEach(inject(function($controller) {
-        scopeSpy = jasmine.createSpyObj('$scope', [
-            '$apply',
-            '$on',
-            '$watch',
-        ]);
+    beforeEach(inject(function($componentController, $rootScope) {
+        elementSpy = jasmine.createSpyObj('$element', ['children']);
+
+        elementChildrenSpy = jasmine.createSpyObj('$element.children', ['get']);
+        elementChildrenSpy.get.and.returnValue({
+            offsetWidth: 400,
+            offsetHeight: 200
+        });
+        elementSpy.children.and.returnValue(elementChildrenSpy);
+
+        scope = $rootScope.$new();
+        spyOn(scope, '$apply');
+        spyOn(scope, '$on');
+        spyOn(scope, '$watch');
 
         amoFlickrApiServiceSpy = jasmine.createSpyObj('amoFlickrApiService', ['fetchAlbum']);
 
         amoFlickrApiServiceFetchAlbumSpy = jasmine.createSpyObj('amoFlickrApiService.fetchAlbum', ['then']);
         amoFlickrApiServiceSpy.fetchAlbum.and.returnValue(amoFlickrApiServiceFetchAlbumSpy);
 
-        target = $controller('AmoFlickrAlbumController', {
-            $element: [
-                {
-                    offsetWidth: 400,
-                    offsetHeight: 200
+        target = $componentController(
+            'amoFlickrAlbum',
+            {
+                $element: elementSpy,
+                $scope: scope,
+                amoFlickrApiService: amoFlickrApiServiceSpy,
+                amoFlickrConfiguration: {
+                    thumbnailSize: 100
                 }
-            ],
-            $scope: scopeSpy,
-            amoFlickrApiService: amoFlickrApiServiceSpy,
-            amoFlickrConfiguration: {
-                thumbnailSize: 100
+            },
+            {
+                userId: 1
             }
-        });
+        );
 
-        target.userId = 1;
+        target.$onInit();
     }));
 
     describe('When loading a Flickr album', function() {
@@ -52,28 +63,28 @@ describe('AmoFlickrAlbumController', function() {
         });
 
         it('should listen for window resize events', function() {
-            expect(scopeSpy.$on).toHaveBeenCalledWith(
+            expect(scope.$on).toHaveBeenCalledWith(
                 'amo.flickr.windowResize',
                 jasmine.any(Function)
             );
         });
 
         it('should listen for next navigation events', function() {
-            expect(scopeSpy.$on).toHaveBeenCalledWith(
+            expect(scope.$on).toHaveBeenCalledWith(
                 'amo.flickr.navigateNext',
                 jasmine.any(Function)
             );
         });
 
         it('should listen for previous navigation events', function() {
-            expect(scopeSpy.$on).toHaveBeenCalledWith(
+            expect(scope.$on).toHaveBeenCalledWith(
                 'amo.flickr.navigatePrevious',
                 jasmine.any(Function)
             );
         });
 
         it('should watch for album ID changes', function() {
-            expect(scopeSpy.$watch).toHaveBeenCalledWith(
+            expect(scope.$watch).toHaveBeenCalledWith(
                 'flickrAlbum.albumId',
                 jasmine.any(Function)
             );
@@ -84,9 +95,9 @@ describe('AmoFlickrAlbumController', function() {
         beforeEach(function() {
             spyOn(target, 'setPhotoSize');
 
-            scopeSpy.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.windowResize'))[1]();
+            scope.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.windowResize'))[1]();
 
-            scopeSpy.$apply.calls.argsFor(0)[0]();
+            scope.$apply.calls.argsFor(0)[0]();
         });
 
         it('should set photo size', function() {
@@ -98,9 +109,9 @@ describe('AmoFlickrAlbumController', function() {
         beforeEach(function() {
             spyOn(target, 'navigateNextPhoto');
 
-            scopeSpy.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.navigateNext'))[1]();
+            scope.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.navigateNext'))[1]();
 
-            scopeSpy.$apply.calls.argsFor(0)[0]();
+            scope.$apply.calls.argsFor(0)[0]();
         });
 
         it('should navigate to the next photo', function() {
@@ -112,9 +123,9 @@ describe('AmoFlickrAlbumController', function() {
         beforeEach(function() {
             spyOn(target, 'navigatePreviousPhoto');
 
-            scopeSpy.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.navigatePrevious'))[1]();
+            scope.$on.calls.argsFor(getScopeOnCallIndex('amo.flickr.navigatePrevious'))[1]();
 
-            scopeSpy.$apply.calls.argsFor(0)[0]();
+            scope.$apply.calls.argsFor(0)[0]();
         });
 
         it('should navigate to the previous photo', function() {
@@ -125,7 +136,7 @@ describe('AmoFlickrAlbumController', function() {
     describe('When the Flickr album is', function() {
         describe('undefined', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1]();
+                scope.$watch.calls.argsFor(0)[1]();
             });
 
             it('should do nothing', function() {
@@ -135,7 +146,7 @@ describe('AmoFlickrAlbumController', function() {
 
         describe('defined', function() {
             beforeEach(function() {
-                scopeSpy.$watch.calls.argsFor(0)[1](10);
+                scope.$watch.calls.argsFor(0)[1](10);
             });
 
             it('should fetch album', function() {
@@ -338,7 +349,7 @@ describe('AmoFlickrAlbumController', function() {
      * @returns {Number} Call index
      */
     function getScopeOnCallIndex(eventName) {
-        var args = scopeSpy.$on.calls.allArgs(),
+        var args = scope.$on.calls.allArgs(),
             i;
 
         for (i = 0; i < args.length; i++) {

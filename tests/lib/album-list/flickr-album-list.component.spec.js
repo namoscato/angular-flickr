@@ -1,4 +1,4 @@
-describe('AmoFlickrAlbumListController', function() {
+describe('amoFlickrAlbumList', function() {
     var result,
         target;
 
@@ -8,18 +8,29 @@ describe('AmoFlickrAlbumListController', function() {
 
     beforeEach(module('amo.flickr.albumList'));
 
-    beforeEach(inject(function($controller) {
+    beforeEach(inject(function($componentController, $rootScope) {
         amoFlickrApiServiceSpy = jasmine.createSpyObj('amoFlickrApiService', ['fetchAlbumList']);
 
         amoFlickrApiServiceFetchAlbumListSpy = jasmine.createSpyObj('amoFlickrApiService.fetchAlbumList', ['then']);
         amoFlickrApiServiceSpy.fetchAlbumList.and.returnValue(amoFlickrApiServiceFetchAlbumListSpy);
 
-        target = $controller('AmoFlickrAlbumListController', {
-            amoFlickrApiService: amoFlickrApiServiceSpy
-        });
+        target = $componentController(
+            'amoFlickrAlbumList',
+            {
+                $scope: $rootScope.$new(),
+                amoFlickrApiService: amoFlickrApiServiceSpy
+            },
+            {
+                userId: 1
+            }
+        );
     }));
 
     describe('When loading an album list', function() {
+        beforeEach(function() {
+            target.$onInit();
+        });
+
         it('should fetch the album list', function() {
             expect(amoFlickrApiServiceSpy.fetchAlbumList).toHaveBeenCalled();
         });

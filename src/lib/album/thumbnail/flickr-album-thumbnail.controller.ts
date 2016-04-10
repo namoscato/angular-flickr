@@ -27,23 +27,28 @@ namespace amo.flickr.album {
         constructor(
             private $element: JQuery,
             private $scope: ng.IScope) {
+        }
 
+        /**
+         * @name AmoFlickrAlbumThumbnailController#$onChanges
+         * @description Handler called with one-way bindings change
+         * @param {Object} changes
+         */
+        private $onChanges(changes: any) {
             let bounds: ClientRect,
                 position: JQueryCoordinates;
 
-            $scope.$watch('albumThumbnail.isPhotoActive', (value) => {
-                if (!value) {
-                    return;
-                }
+            if (angular.isUndefined(changes.isPhotoActive) || !changes.isPhotoActive.currentValue) {
+                return;
+            }
 
-                bounds = this.$element[0].getBoundingClientRect();
-                position = this.$element.position();
+            bounds = this.$element[0].getBoundingClientRect();
+            position = this.$element.position();
 
-                $scope.$emit('amo.flickr.thumbnailActive', {
-                    offsetLeft: bounds.left,
-                    offsetRight: bounds.right,
-                    positionLeft: position.left
-                });
+            this.$scope.$emit('amo.flickr.thumbnailActive', {
+                offsetLeft: bounds.left,
+                offsetRight: bounds.right,
+                positionLeft: position.left
             });
         }
 

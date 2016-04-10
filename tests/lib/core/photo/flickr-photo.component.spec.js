@@ -1,29 +1,35 @@
-describe('AmoFlickrPhotoController', function() {
-    var target;
-
-    var scopeSpy;
+describe('amoFlickrPhoto', function() {
+    var scope,
+        target;
 
     beforeEach(module('amo.flickr.core'));
 
-    beforeEach(inject(function($controller) {
-        scopeSpy = jasmine.createSpyObj('$scope', ['$watchGroup']);
+    beforeEach(inject(function($componentController, $rootScope) {
+        scope = $rootScope.$new();
+        spyOn(scope, '$watchGroup');
 
-        target = $controller('AmoFlickrPhotoController', {
-            $scope: scopeSpy
-        });
+        target = $componentController(
+            'amoFlickrPhoto',
+            {
+                $scope: scope
+            },
+            {
+                photo: {
+                    height_s: 10,
+                    width_s: 20,
+                    url_s: 'S URL',
+                    url_t: 'T URL',
+                },
+                size: 's'
+            }
+        );
 
-        target.photo = {
-            height_s: 10,
-            width_s: 20,
-            url_s: 'S URL',
-            url_t: 'T URL',
-        };
-        target.size = 's';
+        target.$onInit();
     }));
 
     describe('When initializing a Flickr photo', function() {
         it('should watch for photo, width and height changes', function() {
-            expect(scopeSpy.$watchGroup).toHaveBeenCalledWith(
+            expect(scope.$watchGroup).toHaveBeenCalledWith(
                 [
                     'flickrPhoto.photo',
                     'flickrPhoto.width',
@@ -35,7 +41,7 @@ describe('AmoFlickrPhotoController', function() {
 
         describe('and the photo is undefined', function() {
             beforeEach(function() {
-                scopeSpy.$watchGroup.calls.argsFor(0)[1]([]);
+                scope.$watchGroup.calls.argsFor(0)[1]([]);
             });
 
             it('should not do anything', function() {
@@ -45,7 +51,7 @@ describe('AmoFlickrPhotoController', function() {
 
         describe('and the photo is null', function() {
             beforeEach(function() {
-                scopeSpy.$watchGroup.calls.argsFor(0)[1]([null]);
+                scope.$watchGroup.calls.argsFor(0)[1]([null]);
             });
 
             it('should not do anything', function() {
@@ -55,7 +61,7 @@ describe('AmoFlickrPhotoController', function() {
 
         describe('without a thumbnail', function() {
             beforeEach(function() {
-                scopeSpy.$watchGroup.calls.argsFor(0)[1]([{}]);
+                scope.$watchGroup.calls.argsFor(0)[1]([{}]);
             });
 
             it('should set image height', function() {
@@ -79,7 +85,7 @@ describe('AmoFlickrPhotoController', function() {
             beforeEach(function() {
                 target.thumbnailSize = 't';
 
-                scopeSpy.$watchGroup.calls.argsFor(0)[1]([{}]);
+                scope.$watchGroup.calls.argsFor(0)[1]([{}]);
             });
 
             it('should set thumbnail source', function() {

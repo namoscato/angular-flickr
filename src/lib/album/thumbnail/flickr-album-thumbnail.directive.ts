@@ -22,10 +22,10 @@ namespace amo.flickr.album {
         restrict: string = 'A';
         replace: boolean = true;
         scope: Object = {
-            isPhotoActive: '=',
+            isPhotoActive: '<',
             index: '@',
             onClick: '&',
-            photo: '=amoFlickrAlbumThumbnail',
+            photo: '<amoFlickrAlbumThumbnail',
             thumbnailSize: '@'
         };
         templateUrl = 'flickr/album/thumbnail/flickr-album-thumbnail.html';

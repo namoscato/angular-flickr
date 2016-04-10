@@ -10,10 +10,11 @@ namespace amo.flickr.album {
      * @requires amoFlickrApiService
      * @requires amoFlickrConfiguration
      */
-    export class FlickrAlbumController implements IFlickrAlbumDirectiveBindings {
+    export class FlickrAlbumController implements IFlickrAlbumComponentBindings {
         albumId: string;
         album: amo.flickr.core.IFlickrAlbum;
         currentPhotoIndex: number = -1;
+        element: HTMLElement;
         photoHeight: number;
         photoWidth: number;
         thumbnailSize: number;
@@ -25,28 +26,35 @@ namespace amo.flickr.album {
         constructor(
             private $element: JQuery,
             private $scope: ng.IScope,
-            amoFlickrApiService: amo.flickr.core.IFlickrApiService,
+            private amoFlickrApiService: amo.flickr.core.IFlickrApiService,
             private amoFlickrConfiguration: amo.flickr.core.IFlickrConfiguration) {
+        }
 
+        /**
+         * @name AmoFlickrAlbumController#$onInit
+         * @description Initializes the controller
+         */
+        private $onInit() {
+            this.element = this.$element.children('.amo-flickr-album').get(0);
             this.setPhotoSize();
-            this.thumbnailSize = amoFlickrConfiguration.thumbnailSize;
+            this.thumbnailSize = this.amoFlickrConfiguration.thumbnailSize;
 
-            $scope.$on('amo.flickr.windowResize', () => {
+            this.$scope.$on('amo.flickr.windowResize', () => {
                 this.$scope.$apply(() => this.setPhotoSize());
             });
 
-            $scope.$on('amo.flickr.navigateNext', () => {
+            this.$scope.$on('amo.flickr.navigateNext', () => {
                 this.$scope.$apply(() => this.navigateNextPhoto());
             });
 
-            $scope.$on('amo.flickr.navigatePrevious', () => {
+            this.$scope.$on('amo.flickr.navigatePrevious', () => {
                 this.$scope.$apply(() => this.navigatePreviousPhoto());
             });
 
-            $scope.$watch('flickrAlbum.albumId', (albumId: string) => {
+            this.$scope.$watch('flickrAlbum.albumId', (albumId: string) => {
                 if (!albumId) { return; }
 
-                amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
+                this.amoFlickrApiService.fetchAlbum(albumId, this.userId).then((album) => {
                     this.currentPhotoIndex = album.photo.length > 0 ? 0 : -1;
                     this.album = album;
                 });
@@ -118,8 +126,8 @@ namespace amo.flickr.album {
          * @description Sets the photo size
          */
         private setPhotoSize() {
-            this.photoHeight = this.$element[0].offsetHeight - this.amoFlickrConfiguration.thumbnailSize - 2;
-            this.photoWidth = this.$element[0].offsetWidth;
+            this.photoHeight = this.element.offsetHeight - this.amoFlickrConfiguration.thumbnailSize - 2;
+            this.photoWidth = this.element.offsetWidth;
         }
     }
 

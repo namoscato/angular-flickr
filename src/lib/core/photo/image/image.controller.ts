@@ -29,27 +29,34 @@ namespace amo.flickr.core {
          * @ngInject
          */
         constructor(
-            $scope: ng.IScope,
-            $window: ng.IWindowService) {
+            private $scope: ng.IScope,
+            private $window: ng.IWindowService) {
+        }
+
+        /**
+         * @name AmoFlickrAlbumThumbnailController#$onInit
+         * @description Initializes the controller
+         */
+        private $onInit() {
             let asynchronousImage: HTMLImageElement,
                 width: number;
 
-            $scope.$watch('image.imageSource', (imageSource) => {
+            this.$scope.$watch('image.imageSource', (imageSource) => {
                 if (angular.isUndefined(imageSource)) { return; }
 
                 this.isLoaded = false;
 
-                asynchronousImage = new (<any>$window).Image();
+                asynchronousImage = new (<any>this.$window).Image();
                 asynchronousImage.onload = () => {
-                    $scope.$apply(() => {
+                    this.$scope.$apply(() => {
                         this.source = asynchronousImage.src;
                         this.isLoaded = true;
                     });
 
                     if (angular.isDefined(this.thumbnailSource)) {
-                        asynchronousImage = new (<any>$window).Image();
+                        asynchronousImage = new (<any>this.$window).Image();
                         asynchronousImage.onload = () => {
-                            $scope.$apply(() => {
+                            this.$scope.$apply(() => {
                                 this.source = asynchronousImage.src;
                             });
                         };
@@ -65,7 +72,7 @@ namespace amo.flickr.core {
                 this.computeSize();
             });
 
-            $scope.$watchGroup([
+            this.$scope.$watchGroup([
                 'image.width',
                 'image.height'
             ], () => {
