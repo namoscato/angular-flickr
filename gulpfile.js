@@ -70,7 +70,16 @@ gulp.task('js:libs', 'Compile third party JavaScript', function() {
 
 gulp.task('js:lint', 'Check for JavaScript code quality', function() {
     gulp.src(js.src.app)
-        .pipe(gulpTsLint())
+        .pipe(gulpTsLint({
+            'configuration': {
+                'rules': {
+                    'quotemark': [
+                        true,
+                        'single'
+                    ]
+                }
+            },
+        }))
         .pipe(gulpTsLint.report('verbose'));
 });
 

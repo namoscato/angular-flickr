@@ -24,7 +24,7 @@
     "gulp-ng-annotate": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.2.0",
-    "gulp-tslint": "^4.3.1",
+    "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.10.0",
     "gulp-uglify": "^1.5.1",
     "gulp-webserver": "^0.9.1",
@@ -37,6 +37,6 @@
     "phantomjs-prebuilt": "^2.1.4",
     "tslint": "^3.3.0",
     "typescript": "^1.7.5",
-    "typings": "^0.7.9"
+    "typings": "^0.8.1"
   }
 }
