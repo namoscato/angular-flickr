@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "AngularJS Flickr components written in TypeScript",
   "scripts": {
-    "postinstall": "typings install --ambient",
+    "postinstall": "typings install --global",
     "pretest": "gulp all",
     "test": "karma start --single-run --browsers PhantomJS"
   },
@@ -17,7 +17,7 @@
     "angular": "^1.5.0",
     "angular-mocks": "^1.5.0",
     "gulp": "^3.9.0",
-    "gulp-angular-templatecache": "^1.8.0",
+    "gulp-angular-templatecache": "^2.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssnano": "^2.1.0",
     "gulp-help": "^1.6.1",
@@ -30,13 +30,13 @@
     "gulp-webserver": "^0.9.1",
     "jQuery": "^1.7.4",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-jasmine": "^0.3.7",
+    "karma": "^1.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.0",
     "phantomjs-prebuilt": "^2.1.4",
     "tslint": "^3.3.0",
     "typescript": "^1.7.5",
-    "typings": "^0.8.1"
+    "typings": "^1.3.1"
   }
 }

@@ -1,18 +1,18 @@
 'use strict';
 
-var addStream = require('add-stream'),
-    gulp = require('gulp'),
-    gulpAngularTemplateCache = require('gulp-angular-templatecache'),
-    gulpConcat = require('gulp-concat'),
-    gulpCssnano = require('gulp-cssnano'),
-    gulpHelp = require('gulp-help')(gulp),
-    gulpNgAnnotate = require('gulp-ng-annotate'),
-    gulpRename = require('gulp-rename'),
-    gulpSass = require('gulp-sass'),
-    gulpTypescript = require('gulp-typescript'),
-    gulpTsLint = require('gulp-tslint'),
-    gulpUglify = require('gulp-uglify'),
-    gulpWebserver = require('gulp-webserver');
+var addStream = require('add-stream');
+var gulp = require('gulp');
+var gulpAngularTemplateCache = require('gulp-angular-templatecache');
+var gulpConcat = require('gulp-concat');
+var gulpCssnano = require('gulp-cssnano');
+var gulpHelp = require('gulp-help')(gulp);
+var gulpNgAnnotate = require('gulp-ng-annotate');
+var gulpRename = require('gulp-rename');
+var gulpSass = require('gulp-sass');
+var gulpTypescript = require('gulp-typescript');
+var gulpTsLint = require('gulp-tslint');
+var gulpUglify = require('gulp-uglify');
+var gulpWebserver = require('gulp-webserver');
 
 var css = {
     src: 'src/content/styles/app.scss',

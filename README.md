@@ -2,7 +2,7 @@
 
 A collection of 1.5.x [AngularJS](https://angularjs.org/) [Flickr](https://www.flickr.com/) components written in [TypeScript](http://www.typescriptlang.org/).
 
-<img src="assets/preview.jpg" width="547">
+<a href="http://namoscato.github.io/angular-flickr/"><img src="assets/preview.jpg" width="547"></a>
 
 ## Usage
 
