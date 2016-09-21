@@ -36,6 +36,11 @@ var js = {
 
 var tsProject = gulpTypescript.createProject('tsconfig.json');
 
+gulp.task('default', 'Build and serve application', [
+    'serve',
+    'watch'
+]);
+
 gulp.task('all', 'Build application', [
     'css',
     'js:app',
@@ -71,7 +76,7 @@ gulp.task('js:libs', 'Compile third party JavaScript', function() {
 gulp.task('js:lint', 'Check for JavaScript code quality', function() {
     gulp.src(js.src.app)
         .pipe(gulpTsLint({
-            'configuration': {
+            configuration: {
                 'rules': {
                     'quotemark': [
                         true,
@@ -79,8 +84,9 @@ gulp.task('js:lint', 'Check for JavaScript code quality', function() {
                     ]
                 }
             },
+            formatter: 'verbose'
         }))
-        .pipe(gulpTsLint.report('verbose'));
+        .pipe(gulpTsLint.report());
 });
 
 gulp.task('serve', 'Run a local webserver', function() {
